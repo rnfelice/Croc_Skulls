@@ -1,0 +1,99 @@
+#NEXUS
+[R-package APE, Mon Jun 15 16:23:33 2020]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 43;
+	TAXLABELS
+		Gavialis_gangeticus
+		Pristichampsus_vorax
+		Leidyosuchus_canadensis
+		Stangerochampsa_mccabei
+		Procaimanoidea_utahensis
+		Alligator_mississippiensis
+		Alligator_sinensis
+		Purussaurus_neivensis
+		Caiman_crocodilus
+		Caiman_yacare
+		Caiman_latirostris
+		Melanosuchus_niger
+		Paleosuchus_palpebrosus
+		Paleosuchus_trigonatus
+		Prodiplocynodon_langi
+		Crocodylus_affinus
+		Tomistoma_schlegelii
+		Mecistops_cataphractus
+		Crocodylus_niloticus
+		Crocodylus_rhombifer
+		Crocodylus_moreletii
+		Crocodylus_intermedius
+		Crocodylus_acutus1
+		Crocodylus_palustris
+		Crocodylus_siamensis
+		Crocodylus_porosus
+		Crocodylus_johnstoni
+		Crocodylus_mindorensis
+		Crocodylus_novaeguineae
+		Crocodylus_raninus
+		Osteolaemus_tetraspis
+		Voay_robustus
+		Pholidosaurus_sp
+		Sarcosuchus_imperator
+		Kaprosuchus_saharicus
+		Anatosuchus_minor
+		Araripesuchus_gomesii
+		Araripesuchus_wegeneri
+		Simosuchus_clarki
+		Caipirasuchus_stenognathus
+		Mariliasuchus_amarali
+		Pelagosaurus_typus
+		Cricosaurus
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Gavialis_gangeticus,
+		2	Pristichampsus_vorax,
+		3	Leidyosuchus_canadensis,
+		4	Stangerochampsa_mccabei,
+		5	Procaimanoidea_utahensis,
+		6	Alligator_mississippiensis,
+		7	Alligator_sinensis,
+		8	Purussaurus_neivensis,
+		9	Caiman_crocodilus,
+		10	Caiman_yacare,
+		11	Caiman_latirostris,
+		12	Melanosuchus_niger,
+		13	Paleosuchus_palpebrosus,
+		14	Paleosuchus_trigonatus,
+		15	Prodiplocynodon_langi,
+		16	Crocodylus_affinus,
+		17	Tomistoma_schlegelii,
+		18	Mecistops_cataphractus,
+		19	Crocodylus_niloticus,
+		20	Crocodylus_rhombifer,
+		21	Crocodylus_moreletii,
+		22	Crocodylus_intermedius,
+		23	Crocodylus_acutus1,
+		24	Crocodylus_palustris,
+		25	Crocodylus_siamensis,
+		26	Crocodylus_porosus,
+		27	Crocodylus_johnstoni,
+		28	Crocodylus_mindorensis,
+		29	Crocodylus_novaeguineae,
+		30	Crocodylus_raninus,
+		31	Osteolaemus_tetraspis,
+		32	Voay_robustus,
+		33	Pholidosaurus_sp,
+		34	Sarcosuchus_imperator,
+		35	Kaprosuchus_saharicus,
+		36	Anatosuchus_minor,
+		37	Araripesuchus_gomesii,
+		38	Araripesuchus_wegeneri,
+		39	Simosuchus_clarki,
+		40	Caipirasuchus_stenognathus,
+		41	Mariliasuchus_amarali,
+		42	Pelagosaurus_typus,
+		43	Cricosaurus
+	;
+	TREE * UNTITLED = [&R] ((43:47.62711215,42:15.64346898):28.76604765,((((40:8.879561169,41:9.8046896):34.83410692,39:62.22886795):20.26928429,(((37:16.3615179,38:5.992208909):5.159297681,36:8.846636088):6.193858627,35:30.9308936):19.06412134):15.11610994,((33:3.990960367,34:5.515636406):8.281741471,((1:0.007415867797,17:0):89.61402706,((((((31:0,32:0.008183502099):36.50517325,(((((((29:0,30:8.998201004e-05):11.11375502,(27:0,28:0.009101515658):11.11472105):0.1213022394,26:11.24511633):2.307433205,25:13.5481769):0.8483993588,24:14.40094999):6.13013919,((((23:0.006627019199,22:0):0.0003357262829,21:0):0.0002635426359,20:0):0.0001787646533,19:0):20.51974019):12.10104267,18:32.63213823):3.881223463):33.25309242,16:20.87180289):1.289920795,15:3.81616526):13.04078543,(((((13:0.006050244286,14:0):16.86362356,(((11:0,12:0.00840303879):14.87663575,(9:0,10:0.008649608714):14.87638969):1.545313453,8:2.092877017):0.4393281927):46.04226455,((6:0,7:0.007785874878):46.84660875,5:2.939602417):16.05754781):11.49681166,4:6.840158246):9.248696093,3:9.433498682):0.4397047606):1.674687112,2:33.30972342):3.849600329):63.98726304):11.73196607):59.11449777);
+END;
