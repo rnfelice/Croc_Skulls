@@ -9,10 +9,18 @@ library(ape)
 library(geiger)
 library(abind)
 library(phytools)
-library(here)
 library(doParallel)
-library(hot.dots) #install_github("rnfelice/hot.dots")
-library(SURGE) #install_github("rnfelice/SURGE")
+library(RRphylo)
+#devtools::install_github("rnfelice/hot.dots")
+library(hot.dots)
+#devtools::install_github("rnfelice/SURGE")
+library(SURGE) 
+
+library(here)
+
+source(here("Scripts","utility_functions.R"))
+
+# Load Data and Trees--------------------------------------------
 
 
 #load coordinate data
@@ -31,7 +39,7 @@ coords <- fixLMtps(coords.raw)$out
 module_defs <- read_csv(here("Data","module_data.csv"))
 load(file= here("Data","curve_data.Rdata"))
 
-#### Mirror Data ####
+# Mirror Data
 bilat.landmarks <- cbind(which(module_defs$l_or_r=="r"),which(module_defs$l_or_r=="l"))
 
 bilat.landmarks <- bilat.landmarks[c(1:41),]
@@ -65,7 +73,7 @@ bilats<-cbind(rightside, leftside)
 newarray<-paleomorph::mirrorfill(coords2,l1=as.integer(midline),l2=bilats)
 dimnames(newarray)[3]<-dimnames(coords)[3]
 
-#### Procrustes Superimposition ####
+# Procrustes superimposition
 Y.gpa <- gpagen(newarray)
 
 proc_aligned_rightside<-Y.gpa$coords[-bilats[,2],,]
@@ -82,10 +90,10 @@ open3d()
 spheres3d(proc_aligned_rightside[,,1],col=modulecolors,radius=.005)
 
 
-tree1 <- read.nexus(here("Trees","Tree_1_FBD_MCC.nex"))
-tree2 <- read.nexus(here("Trees","Tree_2_FBD_MCC.nex"))
-tree3 <- read.nexus(here("Trees","Tree_3_FBD_MCC.nex"))
-tree4 <- read.nexus(here("Trees","Tree_4_FBD_MCC.nex"))
+tree1 <- read.nexus(here("Trees","Tree_1_FBD_MeanBL.nex"))
+tree2 <- read.nexus(here("Trees","Tree_2_FBD_MeanBL.nex"))
+tree3 <- read.nexus(here("Trees","Tree_3_FBD_MeanBL.nex"))
+tree4 <- read.nexus(here("Trees","Tree_4_FBD_MeanBL.nex"))
 
 treelist<-list(tree1,tree2,tree3,tree4)
 par(mfrow=c(2,2))
@@ -96,10 +104,6 @@ plot(treelist[[4]])
 par(mfrow=c(1,1))
 #change the names of the data to match the tree:
 
-
-nc1 <- name.check(tree1,two.d.array(proc_aligned_rightside))
-
-treelist2 <- lapply(treelist,drop.tip,nc1$tree_not_data)
 
 
 nc1 <- name.check(treelist[[1]],two.d.array(proc_aligned_rightside))
@@ -113,7 +117,27 @@ for (i in 1:length(treelist2)){
 
 #geoscalePhylo(tree=treelist2[[4]],cex.tip=0.7)
 
-####Per-landmark Rate and Variance####
+# Test Phylogenetic Signal --------------------------------------------
+
+physiglist <- lapply(1:4, function(k) geomorph::physignal(proc_aligned_rightside, treelist2[[k]]))
+
+
+# Test allometry --------------------------------------------
+
+allometry1 <- geomorph::procD.lm(proc_aligned_rightside~log(Y.gpa$Csize))
+summary(allometry1)
+plotAllometry(allometry1, size=Y.gpa$Csize,method="RegScore")
+
+allomtery.phylo <- lapply (1:4, function(k) geomorph::procD.pgls(proc_aligned_rightside~Y.gpa$Csize, phy=treelist2[[k]]))
+summary(allomtery.phylo[[1]])
+summary(allomtery.phylo[[2]])
+summary(allomtery.phylo[[3]])
+summary(allomtery.phylo[[4]])
+
+
+
+# Per-landmark rate and variance --------------------------------------------
+
 rateslist <- lapply(1:4, function(k) hot.dots::per_lm_rates(proc_aligned_rightside, treelist2[[k]]))
 perlmvar <- hot.dots::per_lm_variance(proc_aligned_rightside)
 
@@ -122,11 +146,12 @@ perlmvar <- hot.dots::per_lm_variance(proc_aligned_rightside)
 
 
 
-########################
-####geomorph rates####
-########################
+# Per-region rate and variance --------------------------------------------
 
 
+
+
+#rate
 
 reordered.data<-abind(proc_aligned_rightside[which(module_defs_right$occipitals_merged_and_pterygoids_merged==1),,],
                       proc_aligned_rightside[which(module_defs_right$occipitals_merged_and_pterygoids_merged==2),,],
@@ -174,9 +199,9 @@ evoratesgeomorph_4<-compare.multi.evol.rates(A = reordered.data,
 
 
 
-##############
+
 #variance
-################
+
 premax.vent.points <- proc_aligned_rightside[which(module_defs_right$occipitals_merged_and_pterygoids_merged==1),,] %>% two.d.array(.)
 max.vent.points <- proc_aligned_rightside[which(module_defs_right$occipitals_merged_and_pterygoids_merged==2),,] %>% two.d.array(.)
 max.dorsal.points <- proc_aligned_rightside[which(module_defs_right$occipitals_merged_and_pterygoids_merged==3),,] %>% two.d.array(.)
@@ -209,10 +234,9 @@ jawjoint.disp<-morphol.disparity(jawjoint.points~1)
 postorb.disp<-morphol.disparity(postorb.points~1)
 squamosal.disp<-morphol.disparity(squamosal.points~1)
 lacrimal.disp<-morphol.disparity(lacrimal.points~1) 
-#############
 
+# BayesTraits Rates Analysis ----------------------------------------------
 
-####BayesTraits Rates Analysis####
 
 #export trees and phyloPC scores
 btfolder <- here("BayesTraits") 
@@ -234,7 +258,7 @@ for (i in 1:length(runs)){
 
 #Run bayestraits
 
-#### Caution: this is slow and will hog resources, only run if it you are sure you want to 
+#!!!!! Caution: this is slow and will hog resources, only run if it you are sure you want to 
 #import bayestraits control file
 cmd_script <-  dir(here("BayesTraits"), pattern = "\\.cmd$")
 
@@ -259,31 +283,38 @@ if(myOS == "Windows"){
     for (j in 1:ntrees){
       system(
         paste0("cd ", btfolder, " && ./BayesTraitsV3 ", "tree_", j, ".nex", " ",
-               "Phylo_PC_SCORES_","tree_",j,"_run_",runs[i],".txt",
+               "Phylo_PC_SCORES_","tree_",j,"_run_",runs[2],".txt",
                " <", cmd_script), wait=FALSE, ignore.stdout = TRUE )
     }
   }
 }
 
-##### Load and Plot BayesTraits Results####
 
 
 # Load and plot BayesTraits Results ---------------------------------------
+color3<-colorRampPalette(c("#0c2c84","#225ea8","#31a354","#ffff00","#fe9929","#fc4e2a","red","darkred"))
 
 
-###########################################################
+#Tree 1
 #Check convergence of likelihood:
-test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates"), plot = FALSE)
-test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_b.txt.VarRates"), plot = FALSE)
+test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"), plot = FALSE)
+test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_b.txt.VarRates.txt"), plot = FALSE)
 my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
 gelman.diag(my_list_of_chains)
 
-tree_1_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates"),
+tree_1_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"),
                                           rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.Output.trees"),
-                                          tree = tree_1_wholeskull)
+                                          tree = treelist2[[1]])
 
-cophylotrees <- cophylo(tree_1_wholeskull,tree_1_BTraits_wholeskull$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
-tree_1_wholeskull.a<- cophylotrees$trees[[1]]
+cophylotrees <- cophylo(treelist2[[1]],tree_1_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
+tree_1.a<- cophylotrees$trees[[1]]
+
+pp1 <- return_pprob(tree_1_BTraits, threshold = 0)
+fact=4
+index_nodes1 <- which(pp1$nodes>Ntip(tree_1.a))
+
+#plot(tree_1.a, show.tip.label = F)
+
 
 
 {
@@ -307,11 +338,167 @@ tree_1_wholeskull.a<- cophylotrees$trees[[1]]
 
 #ggsave(p.labed, filename="/Users/felice/Dropbox/Crocs/Croc_FBD_Project/Tree_figs/Rates_Trees/Whole Skull Rates- Tree 1.pdf", device="pdf")
 
+#Tree 2
+#Check convergence of likelihood:
+test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"), plot = FALSE)
+test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_b.txt.VarRates.txt"), plot = FALSE)
+my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+gelman.diag(my_list_of_chains)
+
+tree_2_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"),
+                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.Output.trees"),
+                               tree = treelist2[[2]])
+
+cophylotrees <- cophylo(treelist2[[2]],tree_2_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
+tree_2.a<- cophylotrees$trees[[1]]
+
+pp2 <- return_pprob(tree_2_BTraits, threshold = 0)
+fact=4
+index_nodes2 <- which(pp2$nodes>Ntip(tree_2.a))
+plot(tree_2.a, show.tip.label = F)
+nodelabels(cex=pp2$pprobs[index_nodes2]*fact, pch = 24)
 
 
+#Tree 3
+#Check convergence of likelihood:
+test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"), plot = FALSE)
+test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_3_run_b.txt.VarRates.txt"), plot = FALSE)
+my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+gelman.diag(my_list_of_chains)
+
+tree_3_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"),
+                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.Output.trees"),
+                               tree = treelist2[[3]])
+
+cophylotrees <- cophylo(treelist2[[3]],tree_3_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
+tree_3.a<- cophylotrees$trees[[1]]
+
+pp3 <- return_pprob(tree_3_BTraits, threshold = 0)
+fact=4
+index_nodes3 <- which(pp3$nodes>Ntip(tree_3.a))
+plot(tree_3.a, show.tip.label = F)
+nodelabels(cex=pp3$pprobs[index_nodes3]*fact, pch = 24)
 
 
+#Tree 4
+#Check convergence of likelihood:
+test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"), plot = FALSE)
+test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_b.txt.VarRates.txt"), plot = FALSE)
+my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+gelman.diag(my_list_of_chains)
+
+tree_4_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"),
+                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.Output.trees"),
+                               tree = treelist2[[4]])
+
+cophylotrees <- cophylo(treelist2[[4]],tree_4_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
+tree_4.a<- cophylotrees$trees[[1]]
+
+pp4 <- return_pprob(tree_4_BTraits, threshold = 0)
+fact=4
+index_nodes4 <- which(pp4$nodes>Ntip(tree_4.a))
+plot(tree_4.a, show.tip.label = F)
+nodelabels(cex=pp4$pprobs[index_nodes4]*fact, pch = 24)
+
+cairo_pdf(width=8.5, height=11, filename = here("Fig_Output","testfig.pdf"))
+par(mfrow=c(2,2))
+mytreebybranch(tree = tree_1.a, x=log(tree_1_BTraits$data$meanRate)[-1], 
+               mode="edges",
+               palette = color3,cex=.3,
+               edge.width=3,
+               show.tip.label= TRUE, 
+               tip.pch=20, 
+               tip.cex=3, 
+               tip.offset=4)
+nodelabels(cex=pp1$pprobs[index_nodes1]*fact, pch = 24)
+mytreebybranch(tree = tree_2.a, x=log(tree_2_BTraits$data$meanRate)[-1], 
+               mode="edges",
+               palette = color3,cex=.3,
+               edge.width=3,
+               show.tip.label= TRUE, 
+               tip.pch=20, 
+               tip.cex=3, 
+               tip.offset=4)
+nodelabels(cex=pp2$pprobs[index_nodes2]*fact, pch = 24)
+mytreebybranch(tree = tree_3.a, x=log(tree_3_BTraits$data$meanRate)[-1], 
+               mode="edges",
+               palette = color3,cex=.3,
+               edge.width=3,
+               show.tip.label= TRUE, 
+               tip.pch=20, 
+               tip.cex=3, 
+               tip.offset=4)
+nodelabels(cex=pp3$pprobs[index_nodes3]*fact, pch = 24)
+mytreebybranch(tree = tree_4.a, x=log(tree_4_BTraits$data$meanRate)[-1], 
+               mode="edges",
+               palette = color3,cex=.3,
+               edge.width=3,
+               show.tip.label= TRUE, 
+               tip.pch=20, 
+               tip.cex=10, 
+               tip.offset=4)
+nodelabels(cex=pp4$pprobs[index_nodes4]*fact, pch = 24)
+
+dev.off()
+par(mfrow=c(1,1))
 # Convergence Test --------------------------------------------------------
 
+#using first 3 PCs as they represent 5% or greater of cummulative variance
 
-conv.test <- search.conv(RR=RRates, y=PCA1$pc.scores[,c(1:4)], min.dim=5, foldername =  tempdir())
+#note: there is a problem with the parallel package in R 4.0.1 on mac, but this fixes it
+if (Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM")) &&
+Sys.info()["sysname"] == "Darwin" && getRversion() == "4.0.1") {
+parallel:::setDefaultClusterOptions(setup_strategy = "sequential")
+}
+
+
+traits_vector <- rep("nostate", 43)
+names(traits_vector)<-rownames(pca_results$x)
+
+longsnout_forms<-c("Tomistoma_schlegelii","Pelagosaurus_typus","Gavialis_gangeticus","Cricosaurus","Mecistops_cataphractus","Pholidosaurus_sp")
+traits_vector[which(names(traits_vector)%in%longsnout_forms)]<-"long"
+
+RRates <- RRphylo(treelist2[[1]], pca_results$x[,c(1:3)],clus=.5)
+conv.test <- search.conv(tree=treelist2[[1]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests"))
+
+
+clade_vector <- rep("nostate", 43)
+names(clade_vector)<-rownames(pca_results$x)
+
+longsnout_forms<-c("Tomistoma_schlegelii","Pelagosaurus_typus","Gavialis_gangeticus","Cricosaurus","Mecistops_cataphractus","Pholidosaurus_sp")
+traits_vector[which(names(traits_vector)%in%longsnout_forms)]<-"long"
+
+key_node <- getMRCA(phy=treelist2[[1]], tip = c("Crocodylus_mindorensis",  "Crocodylus_novaeguineae"))
+shifts1<-search.shift(RR=RRates,status.type = "clade", node = key_node, foldername =  here("Convergence_Tests"))
+
+
+
+# Try MUSSCRAT ------------------------------------------------------------
+
+#load scripts from "A Bayesian Approach for Inferring the Impact of a Discrete Character on Rates of Continuous-Character Evolution in the Presence of Background-Rate Variation".
+source(here("Scripts","readWriteCharacterData.R"))
+
+#hypothesis: the four taxa recovered as evolving fast by bayestraits:
+#Crocodylus_johnstoni,Crocodylus_mindorensis, Crocodylus_raninus, Crocodylus_novaeguineae
+#evolve with a different background rate
+regime<-matrix(0, nrow=43, ncol=1)
+rownames(regime)<-dimnames(proc_aligned_rightside)[[3]]
+regime[which(rownames(regime)%in%c("Crocodylus_johnstoni","Crocodylus_mindorensis", "Crocodylus_raninus", "Crocodylus_novaeguineae")),1]<-1
+
+writeCharacterData(two.d.array(proc_aligned_rightside),file= here("RevBayes", "shapedata.nex"),type="CONTINUOUS")
+writeCharacterData(regime,file= here("RevBayes", "regimedata.nex"),type="STANDARD")
+
+write.nexus(tree_1.a,file= file= here("RevBayes", "revbayes_tree_1.nex"))
+
+library(RevGadgets)
+
+dataset <- 1
+my_output_file <- "/Users/felice/Google Drive/_UCL/Grant Proposals/NERC BRAINS/revbayesbrains/outputs/relaxed_BM_brain.log"
+tree_plot <- plot_relaxed_branch_rates_tree(tree           = tree.trimmed,
+                                            output_file    = my_output_file,
+                                            parameter_name = "branch_rates")
+
+# end ---------------------------------------------------------------------
+
+
+

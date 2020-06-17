@@ -1,0 +1,119 @@
+#NEXUS
+[R-package APE, Thu Mar 26 10:41:46 2020]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 53;
+	TAXLABELS
+		Proterosuchus
+		Saurosuchus_galilei
+		Postosuchus_kirkpatricki
+		Protosuchus_richardsoni
+		Gavialis_gangeticus
+		Borealosuchus_sternbergii
+		Pristichampsus_vorax
+		Leidyosuchus_canadensis
+		Stangerochampsa_mccabei
+		Procaimanoidea_utahensis
+		Alligator_mississippiensis
+		Alligator_sinensis
+		Purussaurus_neivensis
+		Caiman_crocodilus
+		Caiman_yacare
+		Caiman_latirostris
+		Melanosuchus_niger
+		Paleosuchus_palpebrosus
+		Paleosuchus_trigonatus
+		Prodiplocynodon_langi
+		Crocodilus_clavis
+		Crocodylus_affinus
+		Tomistoma_schlegelii
+		Mecistops_cataphractus
+		Crocodylus_niloticus
+		Crocodylus_rhombifer
+		Crocodylus_moreletii
+		Crocodylus_intermedius
+		Crocodylus_acutus1
+		Crocodylus_acutus2
+		Crocodylus_palustris
+		Crocodylus_siamensis
+		Crocodylus_porosus
+		Crocodylus_johnstoni
+		Crocodylus_mindorensis
+		Crocodylus_novaeguineae
+		Crocodylus_raninus
+		Osteolaemus_tetraspis
+		Voay_robustus
+		Pholidosaurus_sp
+		Sarcosuchus_imperator
+		Kaprosuchus_saharicus
+		Anatosuchus_minor
+		Araripesuchus_gomesii
+		Araripesuchus_wegeneri
+		Simosuchus_clarki
+		Pakasuchus_kapilimai
+		Notosuchus_terrestris
+		Caipirasuchus_stenognathus
+		Mariliasuchus_amarali
+		Pelagosaurus_typus
+		Cricosaurus
+		Geosaurus_arisanensis
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Proterosuchus,
+		2	Saurosuchus_galilei,
+		3	Postosuchus_kirkpatricki,
+		4	Protosuchus_richardsoni,
+		5	Gavialis_gangeticus,
+		6	Borealosuchus_sternbergii,
+		7	Pristichampsus_vorax,
+		8	Leidyosuchus_canadensis,
+		9	Stangerochampsa_mccabei,
+		10	Procaimanoidea_utahensis,
+		11	Alligator_mississippiensis,
+		12	Alligator_sinensis,
+		13	Purussaurus_neivensis,
+		14	Caiman_crocodilus,
+		15	Caiman_yacare,
+		16	Caiman_latirostris,
+		17	Melanosuchus_niger,
+		18	Paleosuchus_palpebrosus,
+		19	Paleosuchus_trigonatus,
+		20	Prodiplocynodon_langi,
+		21	Crocodilus_clavis,
+		22	Crocodylus_affinus,
+		23	Tomistoma_schlegelii,
+		24	Mecistops_cataphractus,
+		25	Crocodylus_niloticus,
+		26	Crocodylus_rhombifer,
+		27	Crocodylus_moreletii,
+		28	Crocodylus_intermedius,
+		29	Crocodylus_acutus1,
+		30	Crocodylus_acutus2,
+		31	Crocodylus_palustris,
+		32	Crocodylus_siamensis,
+		33	Crocodylus_porosus,
+		34	Crocodylus_johnstoni,
+		35	Crocodylus_mindorensis,
+		36	Crocodylus_novaeguineae,
+		37	Crocodylus_raninus,
+		38	Osteolaemus_tetraspis,
+		39	Voay_robustus,
+		40	Pholidosaurus_sp,
+		41	Sarcosuchus_imperator,
+		42	Kaprosuchus_saharicus,
+		43	Anatosuchus_minor,
+		44	Araripesuchus_gomesii,
+		45	Araripesuchus_wegeneri,
+		46	Simosuchus_clarki,
+		47	Pakasuchus_kapilimai,
+		48	Notosuchus_terrestris,
+		49	Caipirasuchus_stenognathus,
+		50	Mariliasuchus_amarali,
+		51	Pelagosaurus_typus,
+		52	Cricosaurus,
+		53	Geosaurus_arisanensis
+	;
+	TREE * UNTITLED = [&R] ((((((((((49:10.65114191,50:10.6995465):11.1074833,48:21.73471685):20.96758555,47:9.220646794):10.89283805,46:69.39093938):22.52797252,(((44:16.13565882,45:5.612820426):7.470256086,43:12.01055201):10.27331688,42:43.88619272):19.76605495):43.38460814,(((40:18.6965916,41:18.72888554):26.13761709,((53:11.7119819,52:17.74466473):15.35803764,51:4.337290971):5.449674302):7.273114715,((5:9.996562262,23:9.996562262):114.0097167,(((((((38:0.1292691339,39:0.1231343047):35.70937994,(((((((36:1.389861242,37:1.389861242):1.975902273,(34:1.427745582,35:1.427745582):1.938017937):1.894408325,33:5.260171882):2.488497225,32:7.748669138):3.677293046,31:11.42596222):5.923498383,(((((29:1.101272657,30:1.101272657):1.314900373,28:2.416173062):1.774172178,27:4.190345197):2.700472967,26:6.890818158):3.941016647,25:10.8318347):6.517625633):6.632743467,24:23.98220381):11.85644483):31.65117208,(21:7.938588711,22:8.020371296):7.666036389):11.568005,20:10.04597462):9.670103572,(((((18:7.353612386,19:7.353612386):26.94746788,(((16:3.496143698,17:3.496143698):6.851966399,(14:3.286134049,15:3.286134049):7.061976185):12.43908153,13:7.881485633):11.5138884):26.76659066,((11:9.168645653,12:9.168645653):42.18828938,10:7.08325656):9.710735961):14.47213166,9:6.515763136):7.396071416,8:5.912479653):5.792055509):6.622008395,7:43.11574553):9.544425632,6:40.95312121):19.11191659):70.557162):9.904937581):14.92514888,4:19.07847224):19.21301426,3:6.987915018):8.577436345,2:15.0023623):11.2914352,1:6.30541414);
+END;
