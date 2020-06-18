@@ -344,7 +344,7 @@ p<-ggtree(tree_1_w_data, aes(color = log(meanRate)), size=1)+
        color="log(Rate)")+
   geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
   scale_size(range = c(1,2))+ 
-  geom_tiplab(label= sub("_", " ",tree_1_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
+  geom_tiplab(label= sub("_", " ",tree_1_w_data@phylo$tip.label), size=3, color = "black", family = "Arial", fontface="italic")+
   coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
                   ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
                   expand = FALSE) +
@@ -362,7 +362,12 @@ p2<-p+geom_strip(taxa1 ="Crocodylus_mindorensis", taxa2 = "Prodiplocynodon_langi
   
 
 ptree1b <-  gggeo_scale(p2, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
-ptree1b
+ptree1b 
+
+ggsave(filename = here("Fig_Output", "rate_trees1a.pdf"),
+       plot = ptree1b, device = cairo_pdf,
+       width = 11, height = 11, units = "cm")
+
 #Tree 2
 #Check convergence of likelihood:
 #test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"), plot = FALSE)
@@ -470,51 +475,9 @@ ggsave(filename = here("Fig_Output", "rate_trees1.pdf"),
        plot = ptree1, device = cairo_pdf,
        width = 11, height = 11, units = "cm")
 
-cairo_pdf(width=8.5, height=11, filename = here("Fig_Output","testfig.pdf"))
-par(mfrow=c(2,2))
-mytreebybranch(tree = tree_1.a, x=log(tree_1_BTraits$data$meanRate)[-1], 
-               mode="edges",
-               palette = color3,cex=.3,
-               edge.width=3,
-               show.tip.label= TRUE, 
-               tip.pch=20, 
-               tip.cex=10,
-               cex=40,
-               tip.offset=4)
-nodelabels(cex=pp1$pprobs[index_nodes1]*fact, pch = 24)
-mytreebybranch(tree = tree_2.a, x=log(tree_2_BTraits$data$meanRate)[-1], 
-               mode="edges",
-               palette = color3,cex=.3,
-               edge.width=3,
-               show.tip.label= TRUE, 
-               tip.pch=20, 
-               tip.cex=3, 
-               tip.offset=4)
-nodelabels(cex=pp2$pprobs[index_nodes2]*fact, pch = 24)
-mytreebybranch(tree = tree_3.a, x=log(tree_3_BTraits$data$meanRate)[-1], 
-               mode="edges",
-               palette = color3,cex=.3,
-               edge.width=3,
-               show.tip.label= TRUE, 
-               tip.pch=20, 
-               tip.cex=3, 
-               tip.offset=4)
-nodelabels(cex=pp3$pprobs[index_nodes3]*fact, pch = 24)
-mytreebybranch(tree = tree_4.a, x=log(tree_4_BTraits$data$meanRate)[-1], 
-               mode="edges",
-               palette = color3,cex=.3,
-               edge.width=3,
-               show.tip.label= TRUE, 
-               tip.pch=20, 
-               tip.cex=10, 
-               tip.offset=4)
-nodelabels(cex=pp4$pprobs[index_nodes4]*fact, pch = 24)
-
-dev.off()
-par(mfrow=c(1,1))
 # Convergence Test --------------------------------------------------------
 
-#using first 3 PCs as they represent 5% or greater of cummulative variance
+#using first 3 PCs as they represent 5% or greater of cumulative variance
 
 #note: there is a problem with the parallel package in R 4.0.1 on mac, but this fixes it
 if (Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM")) &&
