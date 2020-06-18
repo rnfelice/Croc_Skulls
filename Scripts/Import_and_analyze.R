@@ -11,6 +11,14 @@ library(abind)
 library(phytools)
 library(doParallel)
 library(RRphylo)
+library(patchwork)
+library(gridExtra)
+library(treeio)
+library(extrafont)
+#devtools::install_github("willgearty/deeptime")
+library(deeptime)
+#BiocManager::install("ggtree")
+library(ggtree)
 #devtools::install_github("rnfelice/hot.dots")
 library(hot.dots)
 #devtools::install_github("rnfelice/SURGE")
@@ -235,6 +243,23 @@ postorb.disp<-morphol.disparity(postorb.points~1)
 squamosal.disp<-morphol.disparity(squamosal.points~1)
 lacrimal.disp<-morphol.disparity(lacrimal.points~1) 
 
+
+
+# Compare Variation Between Groups ----------------------------------------
+eco <- read_csv(here("Data", "Ecology_data.csv"))
+
+eco <- eco %>% filter(., Tip_label %in% row.names(pca_results$x)) %>% arrange(., Tip_label)
+names(eco$extinct)<-eco$Tip_label
+brevirostres <- rep("other", 43)
+brevirostres[which(eco$Clade %in% c("Alligatoroidea" , "Crocodylidae"))] <- "Brevirostres"
+names(brevirostres) <- eco$Tip_label
+
+gdf <- geomorph.data.frame(coords = proc_aligned_rightside[,,names(eco$extinct)], is_extinct = eco$extinct, clade = brevirostres)
+                           #, size = Y.gpa$Csize)
+disparity_comp<-morphol.disparity(f1 = coords ~ is_extinct, groups = ~is_extinct, data = gdf)
+disparity_comp2<-morphol.disparity(f1 = coords ~ clade, groups = ~clade, data = gdf)
+
+
 # BayesTraits Rates Analysis ----------------------------------------------
 
 
@@ -296,109 +321,154 @@ color3<-colorRampPalette(c("#0c2c84","#225ea8","#31a354","#ffff00","#fe9929","#f
 
 
 #Tree 1
-#Check convergence of likelihood:
-test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"), plot = FALSE)
-test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_b.txt.VarRates.txt"), plot = FALSE)
-my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
-gelman.diag(my_list_of_chains)
-
-tree_1_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"),
-                                          rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.Output.trees"),
-                                          tree = treelist2[[1]])
-
-cophylotrees <- cophylo(treelist2[[1]],tree_1_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
-tree_1.a<- cophylotrees$trees[[1]]
-
-pp1 <- return_pprob(tree_1_BTraits, threshold = 0)
-fact=4
-index_nodes1 <- which(pp1$nodes>Ntip(tree_1.a))
-
-#plot(tree_1.a, show.tip.label = F)
+##Check convergence of likelihood:
+#test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"), plot = FALSE)
+#test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_1_run_b.txt.VarRates.txt"), plot = FALSE)
+#my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+#gelman.diag(my_list_of_chains)
+#
+#tree_1_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"),
+#                                          rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.Output.trees"),
+#                                          tree = treelist2[[1]]) #this is your time scaled tree that was used to input into bayestraits
+#
 
 
+tree_1_w_data <- add_rjpp_to_tree(tree_1_BTraits)
+threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+p<-ggtree(tree_1_w_data, aes(color = log(meanRate)), size=1)+
+  scale_colour_gradientn(colours = color3(100))+
+  #theme(legend.position="top")+
+  theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
+  scale_size(range = c(1,2))+ 
+  labs(title="Tree 1",
+       color="log(Rate)")+
+  geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
+  scale_size(range = c(1,2))+ 
+  geom_tiplab(label= sub("_", " ",tree_1_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
+  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+                  ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
+                  expand = FALSE) +
+ scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
+ theme(panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
+ p <- revts(p) 
+ ptree1 <-  gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
+ptree1
 
-{
+p2<-p+geom_strip(taxa1 ="Crocodylus_mindorensis", taxa2 = "Prodiplocynodon_langi",  label="Crocodyloidea", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial")+
+  geom_strip(taxa1 ="Caiman_yacare", taxa2 =  "Leidyosuchus_canadensis",  label="Alligatoroidea", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial", color="grey")+
+  geom_strip(taxa1 ="Simosuchus_clarki" , taxa2 =  "Araripesuchus_wegeneri" ,  label="Notosuchia", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial", color = "grey")+
+  geom_strip(taxa1 ="Sarcosuchus_imperator", taxa2 =  "Pholidosaurus_sp",  label="Pholidosauridae", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial")+
+  geom_strip(taxa1 ="Pelagosaurus_typus" , taxa2 =  "Cricosaurus"  ,  label="Thalattosuchia", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial")
   
-  wholeskulltree.lab <- tree_1_wholeskull.a$tip.label
-  wholeskulltree.lab.df <- data.table::data.table(label = wholeskulltree.lab, label2 = sub("_", " ",tree_1_wholeskull.a$tip.label)) #Make species names italic and remove underscore
-  treedat_wholeskull_1<-data.frame(tree_1_wholeskull.a$edge,tree_1_BTraits_wholeskull$data$meanRate[-1],tree_1_BTraits_wholeskull$data$pScaled[-1])
-  wholeskulltree.lab.df$label2[which(wholeskulltree.lab.df$label2=="Crocodylus acutus1")]<-"Crocodylus acutus"
-  colnames(treedat_wholeskull_1)<-c("parent","node","meanrate","percentscaled")
-  
-  #cphylogram
-  p<-ggtree(tree_1_wholeskull.a, aes(color = log(meanrate)), size=1)#, size = 0.5) #%<+% edge +
-  p<- p %<+% treedat_wholeskull_1 +
-    scale_colour_gradientn(colours = color3(100))+
-    theme(legend.position="right")+
-    labs(title="Whole Skull Rates- Tree 1",
-         color="log(Rate)")
-  p.labed<-p%<+% wholeskulltree.lab.df + geom_tiplab(aes(label = label2), size=5, color = "black", fontface="italic")+xlim(-1,250)
-  p.labed
-}
 
-#ggsave(p.labed, filename="/Users/felice/Dropbox/Crocs/Croc_FBD_Project/Tree_figs/Rates_Trees/Whole Skull Rates- Tree 1.pdf", device="pdf")
-
+ptree1b <-  gggeo_scale(p2, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
+ptree1b
 #Tree 2
 #Check convergence of likelihood:
-test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"), plot = FALSE)
-test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_b.txt.VarRates.txt"), plot = FALSE)
-my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
-gelman.diag(my_list_of_chains)
+#test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"), plot = FALSE)
+#test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_2_run_b.txt.VarRates.txt"), plot = FALSE)
+#my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+#gelman.diag(my_list_of_chains)
+#
+#tree_2_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"),
+#                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.Output.trees"),
+#                               tree = treelist2[[2]])
 
-tree_2_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"),
-                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.Output.trees"),
-                               tree = treelist2[[2]])
-
-cophylotrees <- cophylo(treelist2[[2]],tree_2_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
-tree_2.a<- cophylotrees$trees[[1]]
-
-pp2 <- return_pprob(tree_2_BTraits, threshold = 0)
-fact=4
-index_nodes2 <- which(pp2$nodes>Ntip(tree_2.a))
-plot(tree_2.a, show.tip.label = F)
-nodelabels(cex=pp2$pprobs[index_nodes2]*fact, pch = 24)
-
+tree_2_w_data <- add_rjpp_to_tree(tree_2_BTraits)
+threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+p<-ggtree(tree_2_w_data, aes(color = log(meanRate)), size=1)+
+  scale_colour_gradientn(colours = color3(100))+
+  #theme(legend.position="top")+
+  theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
+  scale_size(range = c(1,2))+ 
+  labs(title="Tree 2",
+       color="log(Rate)")+
+  geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
+  geom_tiplab(label= sub("_", " ",tree_2_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
+  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+                  ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
+                  expand = FALSE) +
+  scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
+  theme( panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
+p <- revts(p) 
+ptree2 <- gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
+ptree2
 
 #Tree 3
 #Check convergence of likelihood:
-test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"), plot = FALSE)
-test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_3_run_b.txt.VarRates.txt"), plot = FALSE)
-my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
-gelman.diag(my_list_of_chains)
+#test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"), plot = FALSE)
+#test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_3_run_b.txt.VarRates.txt"), plot = FALSE)
+#my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+#gelman.diag(my_list_of_chains)
+#
+#tree_3_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"),
+#                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.Output.trees"),
+#                               tree = treelist2[[3]])
 
-tree_3_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"),
-                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.Output.trees"),
-                               tree = treelist2[[3]])
-
-cophylotrees <- cophylo(treelist2[[3]],tree_3_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
-tree_3.a<- cophylotrees$trees[[1]]
-
-pp3 <- return_pprob(tree_3_BTraits, threshold = 0)
-fact=4
-index_nodes3 <- which(pp3$nodes>Ntip(tree_3.a))
-plot(tree_3.a, show.tip.label = F)
-nodelabels(cex=pp3$pprobs[index_nodes3]*fact, pch = 24)
+tree_3_w_data <- add_rjpp_to_tree(tree_3_BTraits)
+threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+p<-ggtree(tree_3_w_data, aes(color = log(meanRate)), size=1)+
+  scale_colour_gradientn(colours = color3(100))+
+  #theme(legend.position="top")+
+  theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
+  scale_size(range = c(1,2))+ 
+  labs(title="Tree 3",
+       color="log(Rate)")+
+  geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
+  geom_tiplab(label= sub("_", " ",tree_3_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
+  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+                  ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
+                  expand = FALSE) +
+  scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
+  theme(panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
+p <- revts(p) 
+ptree3 <- gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
 
 
 #Tree 4
 #Check convergence of likelihood:
-test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"), plot = FALSE)
-test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_b.txt.VarRates.txt"), plot = FALSE)
-my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
-gelman.diag(my_list_of_chains)
+#test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"), plot = FALSE)
+#test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_b.txt.VarRates.txt"), plot = FALSE)
+#my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
+#gelman.diag(my_list_of_chains)
+#
+#tree_4_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"),
+#                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.Output.trees"),
+#                               tree = treelist2[[4]])
+#
 
-tree_4_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"),
-                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.Output.trees"),
-                               tree = treelist2[[4]])
 
-cophylotrees <- cophylo(treelist2[[4]],tree_4_BTraits$meantree) ### keeps 2nd tree constant, change orientation of 1st to match
-tree_4.a<- cophylotrees$trees[[1]]
+tree_4_w_data <- add_rjpp_to_tree(tree_4_BTraits)
+threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+p<-ggtree(tree_4_w_data, aes(color = log(meanRate)), size=1)+
+  scale_colour_gradientn(colours = color3(100))+
+  #theme(legend.position="top")+
+  theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
+  scale_size(range = c(1,2))+ 
+  labs(title="Tree 4",
+       color="log(Rate)")+
+  geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
+  geom_tiplab(label= sub("_", " ",tree_4_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
+  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+                  ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
+                  expand = FALSE) +
+  scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
+  theme(panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
+p <- revts(p) 
+ptree4 <- gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
 
-pp4 <- return_pprob(tree_4_BTraits, threshold = 0)
-fact=4
-index_nodes4 <- which(pp4$nodes>Ntip(tree_4.a))
-plot(tree_4.a, show.tip.label = F)
-nodelabels(cex=pp4$pprobs[index_nodes4]*fact, pch = 24)
+
+p.combined <- grid.arrange(ptree1, ptree2, ptree3, ptree4, nrow =2)
+
+ggsave(filename = here("Fig_Output", "rate_trees.pdf"),
+       plot = p.combined, device = cairo_pdf,
+       width = 18, height = 22, units = "cm")
+
+
+
+ggsave(filename = here("Fig_Output", "rate_trees1.pdf"),
+       plot = ptree1, device = cairo_pdf,
+       width = 11, height = 11, units = "cm")
 
 cairo_pdf(width=8.5, height=11, filename = here("Fig_Output","testfig.pdf"))
 par(mfrow=c(2,2))
@@ -408,7 +478,8 @@ mytreebybranch(tree = tree_1.a, x=log(tree_1_BTraits$data$meanRate)[-1],
                edge.width=3,
                show.tip.label= TRUE, 
                tip.pch=20, 
-               tip.cex=3, 
+               tip.cex=10,
+               cex=40,
                tip.offset=4)
 nodelabels(cex=pp1$pprobs[index_nodes1]*fact, pch = 24)
 mytreebybranch(tree = tree_2.a, x=log(tree_2_BTraits$data$meanRate)[-1], 
@@ -461,15 +532,6 @@ traits_vector[which(names(traits_vector)%in%longsnout_forms)]<-"long"
 RRates <- RRphylo(treelist2[[1]], pca_results$x[,c(1:3)],clus=.5)
 conv.test <- search.conv(tree=treelist2[[1]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests"))
 
-
-clade_vector <- rep("nostate", 43)
-names(clade_vector)<-rownames(pca_results$x)
-
-longsnout_forms<-c("Tomistoma_schlegelii","Pelagosaurus_typus","Gavialis_gangeticus","Cricosaurus","Mecistops_cataphractus","Pholidosaurus_sp")
-traits_vector[which(names(traits_vector)%in%longsnout_forms)]<-"long"
-
-key_node <- getMRCA(phy=treelist2[[1]], tip = c("Crocodylus_mindorensis",  "Crocodylus_novaeguineae"))
-shifts1<-search.shift(RR=RRates,status.type = "clade", node = key_node, foldername =  here("Convergence_Tests"))
 
 
 
