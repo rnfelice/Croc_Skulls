@@ -53,7 +53,7 @@ bilat.landmarks <- cbind(which(module_defs$l_or_r=="r"),which(module_defs$l_or_r
 bilat.landmarks <- bilat.landmarks[c(1:41),]
 
 midline<- which(module_defs$l_or_r=="m")#a list of which landmarks fall on the midline
-#a list of the CORRESPONDING left side landmarks. (the order of right.lm and left.lm must represent bilateral pairs of landmarks)
+
 surp <- c((max(unlist(curve_list))+1):dim(coords)[1])
 
 all.curves.present<- c(1:length(curve_list))
@@ -95,7 +95,7 @@ color.palette <- c( "#6a3d9a","dimgrey","#fb9a99",  "gold", "#009E73",  "#D55E00
 levels(modulecolors)<-color.palette
   
 open3d()
-spheres3d(proc_aligned_rightside[,,1],col=modulecolors,radius=.005)
+spheres3d(proc_aligned_rightside[,,1],col=modulecolors,radius=.001)
 
 
 tree1 <- read.nexus(here("Trees","Tree_1_FBD_MeanBL.nex"))
@@ -128,7 +128,7 @@ for (i in 1:length(treelist2)){
 # Test Phylogenetic Signal --------------------------------------------
 
 physiglist <- lapply(1:4, function(k) geomorph::physignal(proc_aligned_rightside, treelist2[[k]]))
-
+physiglist
 
 # Test allometry --------------------------------------------
 
@@ -253,12 +253,23 @@ names(eco$extinct)<-eco$Tip_label
 brevirostres <- rep("other", 43)
 brevirostres[which(eco$Clade %in% c("Alligatoroidea" , "Crocodylidae"))] <- "Brevirostres"
 names(brevirostres) <- eco$Tip_label
+names(eco$Diet2)<-eco$Tip_label
+diet <- eco$Diet2
+gdf <- geomorph.data.frame(coords = proc_aligned_rightside[,,names(eco$extinct)], is_extinct = eco$extinct, clade = brevirostres, diet = diet, size = Y.gpa$Csize)
 
-gdf <- geomorph.data.frame(coords = proc_aligned_rightside[,,names(eco$extinct)], is_extinct = eco$extinct, clade = brevirostres)
-                           #, size = Y.gpa$Csize)
+
 disparity_comp<-morphol.disparity(f1 = coords ~ is_extinct, groups = ~is_extinct, data = gdf)
 disparity_comp2<-morphol.disparity(f1 = coords ~ clade, groups = ~clade, data = gdf)
 
+
+# MANOVA for ecology  -----------------------------------------------------
+manova.nonphylo<-procD.lm(f1 = coords ~ diet, data = gdf)
+
+manova.phylo <- lapply(1:4, function(k) geomorph::procD.pgls(f1 = coords ~ diet, phy = treelist2[[k]], data = gdf))
+summary(manova.phylo[[1]])
+summary(manova.phylo[[2]])
+summary(manova.phylo[[3]])
+summary(manova.phylo[[4]])
 
 # BayesTraits Rates Analysis ----------------------------------------------
 
@@ -273,8 +284,9 @@ for (i in 1:length(runs)){
     
     phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], align.to.phy = TRUE)
     
+    #keeping 2 pc axes for 95% of variance, multiply by 1000 to make sure tiny values dont underflow in BayesTraits
     
-    scores <- phypc$x[,c(1:2)]*1000 #keeping 2 pc axes for 95% of variance, multiply by 1000 to make sure tiny values dont underflow in BayesTraits
+    scores <- phypc$x[,c(1:which(cumsum(phypc$d/sum(phypc$d))>0.95)[1])]*1000 
     
     write.table(scores, file = paste0(btfolder,"/Phylo_PC_SCORES_","tree_",j,"_run_",runs[i],".txt"), quote = FALSE, col.names=FALSE)
     write.nexus(treelist2[[j]], file = paste0(btfolder,"/tree_",j,".nex"))
@@ -332,11 +344,14 @@ color3<-colorRampPalette(c("#0c2c84","#225ea8","#31a354","#ffff00","#fe9929","#f
 #                                          tree = treelist2[[1]]) #this is your time scaled tree that was used to input into bayestraits
 #
 
-
+palatex<-c( "#D55E00",   "#009E73",  "#56B4E9")
 tree_1_w_data <- add_rjpp_to_tree(tree_1_BTraits)
+tree_1_w_data <- full_join(tree_1_w_data, mutate(eco, label = eco$Tip_label), by = "label")
 threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
 p<-ggtree(tree_1_w_data, aes(color = log(meanRate)), size=1)+
   scale_colour_gradientn(colours = color3(100))+
+  geom_tippoint(aes(fill=Diet2, x=x+4),color="black", shape=23)+
+  scale_fill_manual(breaks = c("Carnivore","Omnivore/Herbivore","Piscivore"), values = palatex)+
   #theme(legend.position="top")+
   theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
   scale_size(range = c(1,2))+ 
@@ -344,21 +359,21 @@ p<-ggtree(tree_1_w_data, aes(color = log(meanRate)), size=1)+
        color="log(Rate)")+
   geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
   scale_size(range = c(1,2))+ 
-  geom_tiplab(label= sub("_", " ",tree_1_w_data@phylo$tip.label), size=3, color = "black", family = "Arial", fontface="italic")+
+  geom_tiplab(label= sub("_", " ",tree_1_w_data@phylo$tip.label), size=3, offset=5.5, color = "black", family = "Arial", fontface="italic")+
   coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
                   ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
                   expand = FALSE) +
  scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
- theme(panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
- p <- revts(p) 
+ theme(panel.grid.major.x = element_line(colour="grey", size=0.5), legend.key.height =unit(.4,"cm"))#should also be modified based on your time scale limits
+ p <- revts(p);p
  ptree1 <-  gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
 ptree1
 
-p2<-p+geom_strip(taxa1 ="Crocodylus_mindorensis", taxa2 = "Prodiplocynodon_langi",  label="Crocodyloidea", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial")+
-  geom_strip(taxa1 ="Caiman_yacare", taxa2 =  "Leidyosuchus_canadensis",  label="Alligatoroidea", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial", color="grey")+
-  geom_strip(taxa1 ="Simosuchus_clarki" , taxa2 =  "Araripesuchus_wegeneri" ,  label="Notosuchia", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial", color = "grey")+
-  geom_strip(taxa1 ="Sarcosuchus_imperator", taxa2 =  "Pholidosaurus_sp",  label="Pholidosauridae", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial")+
-  geom_strip(taxa1 ="Pelagosaurus_typus" , taxa2 =  "Cricosaurus"  ,  label="Thalattosuchia", offset = 51, offset.text = 3, barsize = 2, angle = 35, family = "Arial")
+p2<-p+geom_strip(taxa1 ="Crocodylus_mindorensis", taxa2 = "Prodiplocynodon_langi",  label="Crocodyloidea", offset = 60, offset.text = 3, barsize = 2, angle = 35, family = "Arial")+
+  geom_strip(taxa1 ="Caiman_yacare", taxa2 =  "Leidyosuchus_canadensis",  label="Alligatoroidea", offset = 60, offset.text = 3, barsize = 2, angle = 35, family = "Arial", color="grey")+
+  geom_strip(taxa1 ="Simosuchus_clarki" , taxa2 =  "Araripesuchus_wegeneri" ,  label="Notosuchia", offset = 60, offset.text = 3, barsize = 2, angle = 35, family = "Arial", color = "grey")+
+  geom_strip(taxa1 ="Sarcosuchus_imperator", taxa2 =  "Pholidosaurus_sp",  label="Pholidosauridae", offset = 60, offset.text = 3, barsize = 2, angle = 35, family = "Arial")+
+  geom_strip(taxa1 ="Pelagosaurus_typus" , taxa2 =  "Cricosaurus"  ,  label="Thalattosuchia", offset = 60, offset.text = 3, barsize = 2, angle = 35, family = "Arial")
   
 
 ptree1b <-  gggeo_scale(p2, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
@@ -492,9 +507,10 @@ names(traits_vector)<-rownames(pca_results$x)
 longsnout_forms<-c("Tomistoma_schlegelii","Pelagosaurus_typus","Gavialis_gangeticus","Cricosaurus","Mecistops_cataphractus","Pholidosaurus_sp")
 traits_vector[which(names(traits_vector)%in%longsnout_forms)]<-"long"
 
-RRates <- RRphylo(treelist2[[1]], pca_results$x[,c(1:3)],clus=.5)
+RRates <- RRphylo(treelist2[[1]], pca_results$x[,c(1:3)],clus=.5)#clus .5 will use half the available cores on your system
 conv.test <- search.conv(tree=treelist2[[1]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests"))
 
+conv.test
 
 
 
