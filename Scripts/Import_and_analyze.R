@@ -281,7 +281,7 @@ runs <- c("a", "b") # do two runs of each so that you can check convergence at t
 
 for (i in 1:length(runs)){
   for (j in 1:length(treelist2)){
-    
+  
     phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], align.to.phy = TRUE)
     
     #keeping 2 pc axes for 95% of variance, multiply by 1000 to make sure tiny values dont underflow in BayesTraits
@@ -512,32 +512,25 @@ conv.test <- search.conv(tree=treelist2[[1]], y=pca_results$x,  state = traits_v
 
 conv.test
 
+# EMMLIi Test of Modularity --------------------------------------------------------
 
 
-# Try MUSSCRAT ------------------------------------------------------------
+coords.2d <- two.d.array(proc_aligned_rightside)
 
-#load scripts from "A Bayesian Approach for Inferring the Impact of a Discrete Character on Rates of Continuous-Character Evolution in the Presence of Background-Rate Variation".
-source(here("Scripts","readWriteCharacterData.R"))
+contrasts_tree1 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[1]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
+contrasts_tree2 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[2]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
+contrasts_tree3 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[3]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
+contrasts_tree4 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[4]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
 
-#hypothesis: the four taxa recovered as evolving fast by bayestraits:
-#Crocodylus_johnstoni,Crocodylus_mindorensis, Crocodylus_raninus, Crocodylus_novaeguineae
-#evolve with a different background rate
-regime<-matrix(0, nrow=43, ncol=1)
-rownames(regime)<-dimnames(proc_aligned_rightside)[[3]]
-regime[which(rownames(regime)%in%c("Crocodylus_johnstoni","Crocodylus_mindorensis", "Crocodylus_raninus", "Crocodylus_novaeguineae")),1]<-1
+corrmat_contrasts_t1<-dotcorr(contrasts_tree1)
+corrmat_contrasts_t2<-dotcorr(contrasts_tree2)
+corrmat_contrasts_t3<-dotcorr(contrasts_tree3)
+corrmat_contrasts_t4<-dotcorr(contrasts_tree4)
 
-writeCharacterData(two.d.array(proc_aligned_rightside),file= here("RevBayes", "shapedata.nex"),type="CONTINUOUS")
-writeCharacterData(regime,file= here("RevBayes", "regimedata.nex"),type="STANDARD")
-
-write.nexus(tree_1.a,file= file= here("RevBayes", "revbayes_tree_1.nex"))
-
-library(RevGadgets)
-
-dataset <- 1
-my_output_file <- "/Users/felice/Google Drive/_UCL/Grant Proposals/NERC BRAINS/revbayesbrains/outputs/relaxed_BM_brain.log"
-tree_plot <- plot_relaxed_branch_rates_tree(tree           = tree.trimmed,
-                                            output_file    = my_output_file,
-                                            parameter_name = "branch_rates")
+EMMLI_PIC_tree1 <- EMMLi(corr = corrmat_contrasts_t1, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
+EMMLI_PIC_tree2 <- EMMLi(corr = corrmat_contrasts_t2, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
+EMMLI_PIC_tree3 <- EMMLi(corr = corrmat_contrasts_t3, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
+EMMLI_PIC_tree4 <- EMMLi(corr = corrmat_contrasts_t4, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
 
 # end ---------------------------------------------------------------------
 
