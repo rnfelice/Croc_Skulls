@@ -1,0 +1,44 @@
+Clade2,Clade,Genus,Species,Taxon,Tip_label,Habitat,Diet,Diet2,extinct,Reconstructed
+Alligatorinae ,Alligatoroidea ,Alligator,mississippiensis,Alligator_mississippiensis,Alligator_mississippiensis,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Alligatorinae ,Alligatoroidea ,Alligator,sinensis,Alligator_sinensis,Alligator_sinensis,semi-aquatic/freshwater,Durophagus?,Carnivore,no,1
+Notosuchia,Notosuchia,Anatosuchus,minor,Anatosuchus_minor,Anatosuchus_minor,terrestrial,Carnivore,Omnivore/Herbivore,yes,0.8
+Uruguaysuchidae,Notosuchia,Araripesuchus,gomesii,Araripesuchus_gomesii,Araripesuchus_gomesii,terrestrial,Insectivore/omnivore,Omnivore/Herbivore,yes,1
+Uruguaysuchidae,Notosuchia,Araripesuchus,wegeneri,Araripesuchus_wegeneri,Araripesuchus_wegeneri,terrestrial,Insectivore/omnivore,Omnivore/Herbivore,yes,1
+Caimaninae,Alligatoroidea ,Caiman,crocodilus,Caiman_crocodilus,Caiman_crocodilus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Caimaninae,Alligatoroidea ,Caiman,latirostris,Caiman_latirostris,Caiman_latirostris,semi-aquatic/freshwater,Durophagus?,Carnivore,no,1
+Caimaninae,Alligatoroidea ,Caiman,yacare,Caiman_yacare,Caiman_yacare,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Sphagesauridae,Notosuchia,Caipirasuchus,stenognathus,Caipirasuchus_stenognathus,Caipirasuchus_stenognathus,terrestrial,Insectivore/omnivore,Omnivore/Herbivore,yes,0.8
+Thalattosuchia,Thalattosuchia,Cricosaurus,araucanensis,Cricosaurus_araucanensis,Cricosaurus,aquatic/marine,Piscivore,Piscivore,yes,0.8
+Crocodylinae,Crocodylidae,Crocodylus,acutus,Crocodylus_acutus,Crocodylus_acutus1,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,affinis,Crocodylus_affinis,Crocodylus_affinis,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
+Crocodylinae,Crocodylidae,Crocodylus,intermedius,Crocodylus_intermedius,Crocodylus_intermedius,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,johnstoni,Crocodylus_johnstoni,Crocodylus_johnstoni,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,mindorensis,Crocodylus_mindorensis,Crocodylus_mindorensis,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,moreletti,Crocodylus_moreletti,Crocodylus_moreletii,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,niloticus,Crocodylus_niloticus,Crocodylus_niloticus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,novaeguineae,Crocodylus_novaeguineae,Crocodylus_novaeguineae,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,platarostris,Crocodylus_platarostris,Crocodylus_palustris,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,porosus,Crocodylus_porosus,Crocodylus_porosus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,raninus,Crocodylus_raninus,Crocodylus_raninus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,rhombifer,Crocodylus_rhombifer,Crocodylus_rhombifer,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Crocodylinae,Crocodylidae,Crocodylus,siamensis,Crocodylus_siamensis,Crocodylus_siamensis,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Gavialidae,Gavialidae,Gavialis,gangenticus,Gavialis_gangenticus,Gavialis_gangeticus,semi-aquatic/freshwater,Piscivore,Piscivore,no,1
+Mahajangasuchidae,Mahajangasuchidae,Kaprosuchus,saharicus,Kaprosuchus_saharicus,Kaprosuchus_saharicus,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
+Alligatoroidea,Alligatoroidea ,Leidyosuchus,canadensis,Leidyosuchus_canadensis,Leidyosuchus_canadensis,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
+Notosuchidae,Notosuchia,Mariliasuchus,amarali,Mariliasuchus_amarali,Mariliasuchus_amarali,terrestrial,Insectivore/omnivore,Omnivore/Herbivore,yes,1
+Crocodylinae,Crocodylidae,Mecistops,cataphractus,Mecistops_cataphractus,Mecistops_cataphractus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Caimaninae,Alligatoroidea ,Melanosuchus,niger,Melanosuchus_niger,Melanosuchus_niger,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Osteolaeminae,Crocodylidae,Osteolaemus,tetraspis,Osteolaemus_tetraspis,Osteolaemus_tetraspis,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Caimaninae,Alligatoroidea ,Paleosuchus,palpebrosus,Paleosuchus_palpebrosus,Paleosuchus_palpebrosus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Caimaninae,Alligatoroidea ,Paleosuchus,trigonatus,Paleosuchus_trigonatus,Paleosuchus_trigonatus,semi-aquatic/freshwater,Carnivore,Carnivore,no,1
+Thalattosuchia,Thalattosuchia,Pelagosaurus,typus,Pelagosaurus_typus,Pelagosaurus_typus,aquatic/marine,Piscivore,Piscivore,yes,1
+Pholidosauridae,Pholidosauridae,Pholidosaurus,purbeckensis,Pholidosaurus_purbeckensis,Pholidosaurus_sp,semi-aquatic/freshwater,Carnivore,Carnivore,yes,0.8
+Crocodyloidea,Crocodylidae,Pristichampsus,vorax,Pristichampsus_vorax,Pristichampsus_vorax,terrestrial,Carnivore,Carnivore,yes,1
+Alligatorinae,Alligatoroidea ,Procaimanoidea,utahensis,Procaimanoidea_utahensis,Procaimanoidea_utahensis,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
+Crocodylia,Crocodylidae,Prodiplocynodon,sp.,Prodiplocynodon_sp.,Prodiplocynodon_langi,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
+Caimaninae,Alligatoroidea ,Purussaurus,neivensis,Purussaurus_neivensis,Purussaurus_neivensis,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
+Pholidosauridae,Pholidosauridae,Sarcosuchus,imperator,Sarcosuchus_imperator,Sarcosuchus_imperator,semi-aquatic/freshwater,Carnivore,Carnivore,yes,0.8
+Ziphosuchidae,Notosuchia,Simosuchus,sp.,Simosuchus_sp.,Simosuchus_clarki,terrestrial,Herbivore,Omnivore/Herbivore,yes,1
+Globidonta ,Alligatoroidea ,Stangerochampsa,mccabei,Stangerochampsa_mccabei,Stangerochampsa_mccabei,semi-aquatic/freshwater,Durophagus?,Carnivore,yes,1
+Tomistoma,Tomistoma,Tomistoma,schlegelii,Tomistoma_schlegelii,Tomistoma_schlegelii,semi-aquatic/freshwater,Piscivore,Piscivore,no,1
+Osteolaeminae,Crocodylidae,Voay,robustus,Voay_robustus,Voay_robustus,semi-aquatic/freshwater,Carnivore,Carnivore,yes,1
