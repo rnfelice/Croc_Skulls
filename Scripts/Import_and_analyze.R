@@ -281,10 +281,16 @@ runs <- c("a", "b") # do two runs of each so that you can check convergence at t
 
 for (i in 1:length(runs)){
   for (j in 1:length(treelist2)){
+<<<<<<< HEAD
     #wrong way
     #phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], align.to.phy = TRUE)
     #right way
     phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], GLS = TRUE)
+=======
+  
+    phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], align.to.phy = TRUE)
+    
+>>>>>>> 31cabb932ad08817d95787504e5bfd25ac5dd67a
     #keeping 2 pc axes for 95% of variance, multiply by 1000 to make sure tiny values dont underflow in BayesTraits
     
     scores <- phypc$x[,c(1:which(cumsum(phypc$d/sum(phypc$d))>0.95)[1])]*1000 
