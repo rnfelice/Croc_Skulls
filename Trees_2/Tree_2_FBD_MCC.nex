@@ -1,0 +1,667 @@
+#NEXUS
+[R-package APE, Fri Jul 31 20:16:50 2020]
+
+BEGIN TAXA;
+	DIMENSIONS NTAX = 327;
+	TAXLABELS
+		Acherontisuchus_guajiraensis
+		Acynodon_adriaticus
+		Acynodon_iberoccitanus
+		Adamantinasuchus_navae
+		Adzhosuchus_fuscus
+		Agaresuchus_fontisensis
+		Agaresuchus_subjuniperus
+		Albertochampsa_langstoni
+		Alligator_mcgrewi
+		Alligator_mefferdi
+		Alligator_mississippiensis
+		Alligator_olseni
+		Alligator_prenasalis
+		Alligator_sinensis
+		Alligator_thomsoni
+		Alligatorellus_beaumonti
+		Alligatorium_meyeri
+		Allodaposuchus_precedens
+		Allognathosuchus_haupti
+		Almadasuchus_figarii
+		Amphicotylus_gilmorei
+		Amphicotylus_lucasii
+		Anatosuchus_minor
+		Anteophthalmosuchus_hooleyi
+		Anthracosuchus_balrogus
+		Aplestosuchus_sordidus
+		Arambourgia_gaudryi
+		Arambourgisuchus_khouribgaensis
+		Araripesuchus_buitreraensis
+		Araripesuchus_gomesii
+		Araripesuchus_patagonicus
+		Araripesuchus_tsangatsangana
+		Araripesuchus_wegeneri
+		Arenysuchus_gascabadiolorum
+		Argochampsa_krebsi
+		Armadillosuchus_arrudai
+		Asiatosuchus_germanicus
+		Atlantosuchus_coupatezi
+		Atoposaurus_oberndorferi
+		Australosuchus_clarkae
+		Ayllusuchus_fernandezi
+		Barinasuchus_arveloi
+		Barreirosuchus_franciscoi
+		Batrachomimus_pastosbonensis
+		Baurusuchus_albertoi
+		Baurusuchus_pachecoi
+		Baurusuchus_salgadoensis
+		Bergisuchus_dietrichbergi
+		Bernissartia_fagesii
+		Borealosuchus_acutidentatus
+		Borealosuchus_formidabilis
+		Borealosuchus_sternbergii
+		Borealosuchus_threeensis
+		Borealosuchus_wilsoni
+		Boverisuchus_magnifrons
+		Pristichampsus_vorax
+		Brachychampsa_montana
+		Brachychampsa_sealeyi
+		Brachyuranochampsa_eversolei
+		Bretesuchus_bonapartei
+		Brochuchus_pigotti
+		Caiman_crocodilus
+		Caiman_crocodilus_apaporiensis
+		Caiman_crocodilus_chiapasius
+		Caiman_latirostris
+		Caiman_lutescens
+		Caiman_yacare
+		Caipirasuchus_montealtensis
+		Caipirasuchus_paulistanus
+		Caipirasuchus_stenognathus
+		Calsoyasuchus_valliceps
+		Campinasuchus_dinizi
+		Candidodon_itapecuruense
+		Carnufex_carolinensis
+		Caryonosuchus_pricei
+		Ceratosuchus_burdoshi
+		Cerrejonisuchus_improcerus
+		Chalawan_thailandicus
+		Chenanisuchus_lateroculi
+		Chimaerasuchus_paradoxus
+		Comahuesuchus_brachybuccalis
+		Congosaurus_bequaerti
+		Coringasuchus_anisodontis
+		Cricosaurus
+		Cricosaurus_elegans
+		Cricosaurus_gracilis
+		Cricosaurus_lithographicus
+		Cricosaurus_macrospondylus
+		Cricosaurus_saltillense
+		Cricosaurus_schroederi
+		Cricosaurus_suevicus
+		Cricosaurus_vignaudi
+		Crocodilus_clavis
+		Crocodylus_acer
+		Crocodylus_acutus1
+		Crocodylus_affinis
+		Crocodylus_depressifrons
+		Crocodylus_intermedius
+		Crocodylus_johnstoni
+		Crocodylus_megarhinus
+		Crocodylus_mindorensis
+		Crocodylus_moreletii
+		Crocodylus_niloticus
+		Crocodylus_novaeguineae
+		Crocodylus_palaeindicus
+		Crocodylus_palustris
+		Crocodylus_porosus
+		Crocodylus_raninus
+		Crocodylus_rhombifer
+		Crocodylus_siamensis
+		Cynodontosuchus_rothi
+		Dakosaurus_andiniensis
+		Dakosaurus_maximus
+		Dibothrosuchus_elaphros
+		Diplocynodon_darwini
+		Diplocynodon_deponiae
+		Diplocynodon_hantoniensis
+		Diplocynodon_ratelii
+		Dollosuchoides_densmorei
+		Dromicosuchus_grallator
+		Dyrosaurus_maghribensis
+		Dyrosaurus_phosphaticus
+		Edentosuchus_tienshanensis
+		Effigia_okeeffeae
+		Elosuchus_cherifiensis
+		Eocaiman_cavernensis
+		Eogavialis_africanus
+		Eoneustes_bathonicus
+		Eoneustes_gaudryi
+		Eosuchus_lerichei
+		Eosuchus_minor
+		Eothoracosaurus_mississippiensis
+		Euthecodon_arambourgi
+		Euthecodon_brumpti
+		Eutretauranosuchus_delfsi
+		Fruitachampsa_callisoni
+		Gasparinisuchus_peirosauroides
+		Gavialis_bengawanicus
+		Gavialis_gangeticus
+		Gavialosuchus_americana
+		Gavialosuchus_eggenburgensis
+		Geosaurus_arisanensis
+		Geosaurus_giganteus
+		Geosaurus_lapparenti
+		Globidentosuchus_brachyrostris
+		Gobiosuchus_kielanae
+		Goniopholis_baryglyphaeus
+		Goniopholis_kiplingi
+		Goniopholis_simus
+		Gracilineustes_acutus
+		Gracilineustes_leedsi
+		Gracilisuchus_stipanicicorum
+		Gryposuchus_colombianus
+		Gryposuchus_pachakamue
+		Guarinisuchus_munizi
+		Hallopus_victor
+		Hamadasuchus_rebouli
+		Hemiprotosuchus_leali
+		Hesperosuchus_agilis
+		Hsisosuchus_chowi
+		Hsisosuchus_chungkingensis
+		Hsisosuchus_dashanpuensis
+		Hylaeochampsa_vectiana
+		Hyposaurus_rogersii
+		Iberosuchus_macrodon
+		Iharkutosuchus_makadii
+		Ikanogavialis_gameroi
+		Isisfordia_duncani
+		Junggarsuchus_sloani
+		Kambara_implexidens
+		Kaprosuchus_saharicus
+		Kayentasuchus_walkeri
+		Kentisuchus_spenceri
+		Knoetschkesuchus_guimarotae
+		Knoetschkesuchus_langenbergensis
+		Labidiosuchus_amicum
+		Leidyosuchus_canadensis
+		Libycosuchus_brevirostris
+		Litargosuchus_leptorhynchus
+		Lohuecosuchus_mechinorum
+		Lohuecosuchus_megadontos
+		Lomasuchus_palpebrosus
+		Lorosuchus_nodosus
+		Macelognathus_vagans
+		Machimosaurus_buffetauti
+		Machimosaurus_hugii
+		Machimosaurus_mosae
+		Mahajangasuchus_insignis
+		Malawisuchus_mwakasyungutiensis
+		Maledictosuchus_riclaensis
+		Maomingosuchus_petrolica
+		Mariliasuchus_amarali
+		Maroccosuchus_zennaroi
+		Mecistops_cataphractus
+		Megadontosuchus_arduini
+		Melanosuchus_fisheri
+		Melanosuchus_niger
+		Meridiosaurus_valisparadisi
+		metriorhynchus_brachyrhynchus
+		metriorhynchus_casamiquelai
+		Metriorhynchus_geoffroyii
+		Metriorhynchus_hastifer
+		Metriorhynchus_superciliosus
+		metriorhynchus_westermanni
+		Montealtosuchus_arrudacamposi
+		Morrinhosuchus_luziae
+		Mourasuchus_amazonensis
+		Nannosuchus_gracilidens
+		Navajosuchus_mooki
+		Neptunidraco_ammoniticus
+		Neuquensuchus_universitas
+		Nominosuchus_matutinus
+		Notosuchus_terrestris
+		Oceanosuchus_boecensis
+		Orthogenysuchus_olseni
+		Orthosuchus_stormbergi
+		Osteolaemus_osborni
+		Osteolaemus_tetraspis
+		Pabwehshi_pakistanensis
+		Pachycheilosuchus_trinquei
+		Pakasuchus_kapilimai
+		Paleosuchus_palpebrosus
+		Paleosuchus_trigonatus
+		Paralligator_gradilifrons
+		Paralligator_major
+		Paratomistoma_courtii
+		Pehuenchesuchus_enderi
+		Peipehsuchus_teleorhinus
+		Pelagosaurus_typus
+		Penghusuchus_pani
+		Pholidosaurus_schaumburgensis
+		Pholidosaurus_sp
+		Phosphatosaurus_gavialoides
+		Pietraroiasuchus_ormezzanoi
+		Piscogavialis_jugaliperforatus
+		Pissarrachampsa_sera
+		Planocrania_datangensis
+		Planocrania_hengdongensis
+		Platysuchus_multicrobiculatus
+		Plesiosuchus_manselii
+		Postosuchus_alisonae
+		Postosuchus_kirkpatricki
+		Prestosuchus_chiniquensis
+		Procaimanoidea_kayi
+		Procaimanoidea_utahensis
+		Prodiplocynodon_langi
+		Protosuchus_haughtoni
+		Protosuchus_richardsoni
+		Pseudhesperosuchus_jachaleri
+		Purranisaurus_potens
+		Purussaurus_brasiliensis
+		Purussaurus_mirandae
+		Purussaurus_neivensis
+		Rauisuchus_tiradentes
+		Redondavenator_quayensis
+		Rhabdognathus_aslerensis
+		Rhabdognathus_keiniensis
+		Rhacheosaurus_gracilis
+		Rimasuchus_lloydi
+		Rugosuchus_nonganensis
+		Saltoposuchus_connectens
+		Sarcosuchus_hartii
+		Sarcosuchus_imperator
+		Sebecus_huilensis
+		Sebecus_icaeorhinus
+		Sebecus_querejazus
+		Shamosuchus_djadochtaensis
+		Shantungosuchus_brachycephalus
+		Shantungosuchus_chuhsienensis
+		Shantungosuchus_hangjinensis
+		Shartegosuchus_asperopalatum
+		Shuvosaurus_inexpectatus
+		Siamosuchus_phuphokensis
+		Sichuanosuchus_huidongensis
+		Sichuanosuchus_shuhanensis
+		Simosuchus_clarki
+		Siquisiquesuchus_venezuelensis
+		Sokotosuchus_ianwilsoni
+		Sphagesaurus_huenei
+		Sphenosuchus_acutus
+		Stangerochampsa_mccabei
+		Steneosaurus_bollensis
+		Steneosaurus_edwardsi
+		Steneosaurus_gracilirostris
+		Steneosaurus_heberti
+		Steneosaurus_leedsi
+		Steneosaurus_megistorhynchus
+		Steneosaurus_obtusidens
+		Stolokrosuchus_lapparenti
+		Stratiotosuchus_maxhechti
+		Suchodus_durobrivensis
+		Sunosuchus_junggarensis
+		Sunosuchus_miaoi
+		Susisuchus_anatoceps
+		Susisuchus_jaguaribensis
+		Teleidosaurus_calvadosii
+		Teleosaurus_cadomensis
+		Terminonaris_browni
+		Terminonaris_robusta
+		Terrestrisuchus_gracilis
+		Thecachampsa_antiqua
+		Thecachampsa_carolinensis
+		Theriosuchus_pusillus
+		thoracosaurus_macrorhynchus
+		Thoracosaurus_neocesariensis
+		Tomistoma_cairense
+		Tomistoma_lusitanica
+		Tomistoma_schlegelii
+		Torvoneustes_carpenteri
+		Torvoneustes_coryphaeus
+		Toyotamaphimeia_machikanensis
+		Trialestes_romeri
+		Trilophosuchus_rackhami
+		Tsoabichi_greenriverensis
+		Turfanosuchus_dabanensis
+		Tyrannoneustes_lythrodectikos
+		Uberabasuchus_terrificus
+		Uruguaysuchus_aznarezi
+		Vectisuchus_leptognathus
+		Voay_robustus
+		Wannaganosuchus_brachymans
+		Wannchampsus_kirpachi
+		Yacarerani_boliviensis
+		Yonghesuchus_sangbiensis
+		Zaraasuchus_shepardi
+		Zoneait_nargorum
+		Zosuchus_davidsoni
+	;
+END;
+BEGIN TREES;
+	TRANSLATE
+		1	Acherontisuchus_guajiraensis,
+		2	Acynodon_adriaticus,
+		3	Acynodon_iberoccitanus,
+		4	Adamantinasuchus_navae,
+		5	Adzhosuchus_fuscus,
+		6	Agaresuchus_fontisensis,
+		7	Agaresuchus_subjuniperus,
+		8	Albertochampsa_langstoni,
+		9	Alligator_mcgrewi,
+		10	Alligator_mefferdi,
+		11	Alligator_mississippiensis,
+		12	Alligator_olseni,
+		13	Alligator_prenasalis,
+		14	Alligator_sinensis,
+		15	Alligator_thomsoni,
+		16	Alligatorellus_beaumonti,
+		17	Alligatorium_meyeri,
+		18	Allodaposuchus_precedens,
+		19	Allognathosuchus_haupti,
+		20	Almadasuchus_figarii,
+		21	Amphicotylus_gilmorei,
+		22	Amphicotylus_lucasii,
+		23	Anatosuchus_minor,
+		24	Anteophthalmosuchus_hooleyi,
+		25	Anthracosuchus_balrogus,
+		26	Aplestosuchus_sordidus,
+		27	Arambourgia_gaudryi,
+		28	Arambourgisuchus_khouribgaensis,
+		29	Araripesuchus_buitreraensis,
+		30	Araripesuchus_gomesii,
+		31	Araripesuchus_patagonicus,
+		32	Araripesuchus_tsangatsangana,
+		33	Araripesuchus_wegeneri,
+		34	Arenysuchus_gascabadiolorum,
+		35	Argochampsa_krebsi,
+		36	Armadillosuchus_arrudai,
+		37	Asiatosuchus_germanicus,
+		38	Atlantosuchus_coupatezi,
+		39	Atoposaurus_oberndorferi,
+		40	Australosuchus_clarkae,
+		41	Ayllusuchus_fernandezi,
+		42	Barinasuchus_arveloi,
+		43	Barreirosuchus_franciscoi,
+		44	Batrachomimus_pastosbonensis,
+		45	Baurusuchus_albertoi,
+		46	Baurusuchus_pachecoi,
+		47	Baurusuchus_salgadoensis,
+		48	Bergisuchus_dietrichbergi,
+		49	Bernissartia_fagesii,
+		50	Borealosuchus_acutidentatus,
+		51	Borealosuchus_formidabilis,
+		52	Borealosuchus_sternbergii,
+		53	Borealosuchus_threeensis,
+		54	Borealosuchus_wilsoni,
+		55	Boverisuchus_magnifrons,
+		56	Pristichampsus_vorax,
+		57	Brachychampsa_montana,
+		58	Brachychampsa_sealeyi,
+		59	Brachyuranochampsa_eversolei,
+		60	Bretesuchus_bonapartei,
+		61	Brochuchus_pigotti,
+		62	Caiman_crocodilus,
+		63	Caiman_crocodilus_apaporiensis,
+		64	Caiman_crocodilus_chiapasius,
+		65	Caiman_latirostris,
+		66	Caiman_lutescens,
+		67	Caiman_yacare,
+		68	Caipirasuchus_montealtensis,
+		69	Caipirasuchus_paulistanus,
+		70	Caipirasuchus_stenognathus,
+		71	Calsoyasuchus_valliceps,
+		72	Campinasuchus_dinizi,
+		73	Candidodon_itapecuruense,
+		74	Carnufex_carolinensis,
+		75	Caryonosuchus_pricei,
+		76	Ceratosuchus_burdoshi,
+		77	Cerrejonisuchus_improcerus,
+		78	Chalawan_thailandicus,
+		79	Chenanisuchus_lateroculi,
+		80	Chimaerasuchus_paradoxus,
+		81	Comahuesuchus_brachybuccalis,
+		82	Congosaurus_bequaerti,
+		83	Coringasuchus_anisodontis,
+		84	Cricosaurus,
+		85	Cricosaurus_elegans,
+		86	Cricosaurus_gracilis,
+		87	Cricosaurus_lithographicus,
+		88	Cricosaurus_macrospondylus,
+		89	Cricosaurus_saltillense,
+		90	Cricosaurus_schroederi,
+		91	Cricosaurus_suevicus,
+		92	Cricosaurus_vignaudi,
+		93	Crocodilus_clavis,
+		94	Crocodylus_acer,
+		95	Crocodylus_acutus1,
+		96	Crocodylus_affinis,
+		97	Crocodylus_depressifrons,
+		98	Crocodylus_intermedius,
+		99	Crocodylus_johnstoni,
+		100	Crocodylus_megarhinus,
+		101	Crocodylus_mindorensis,
+		102	Crocodylus_moreletii,
+		103	Crocodylus_niloticus,
+		104	Crocodylus_novaeguineae,
+		105	Crocodylus_palaeindicus,
+		106	Crocodylus_palustris,
+		107	Crocodylus_porosus,
+		108	Crocodylus_raninus,
+		109	Crocodylus_rhombifer,
+		110	Crocodylus_siamensis,
+		111	Cynodontosuchus_rothi,
+		112	Dakosaurus_andiniensis,
+		113	Dakosaurus_maximus,
+		114	Dibothrosuchus_elaphros,
+		115	Diplocynodon_darwini,
+		116	Diplocynodon_deponiae,
+		117	Diplocynodon_hantoniensis,
+		118	Diplocynodon_ratelii,
+		119	Dollosuchoides_densmorei,
+		120	Dromicosuchus_grallator,
+		121	Dyrosaurus_maghribensis,
+		122	Dyrosaurus_phosphaticus,
+		123	Edentosuchus_tienshanensis,
+		124	Effigia_okeeffeae,
+		125	Elosuchus_cherifiensis,
+		126	Eocaiman_cavernensis,
+		127	Eogavialis_africanus,
+		128	Eoneustes_bathonicus,
+		129	Eoneustes_gaudryi,
+		130	Eosuchus_lerichei,
+		131	Eosuchus_minor,
+		132	Eothoracosaurus_mississippiensis,
+		133	Euthecodon_arambourgi,
+		134	Euthecodon_brumpti,
+		135	Eutretauranosuchus_delfsi,
+		136	Fruitachampsa_callisoni,
+		137	Gasparinisuchus_peirosauroides,
+		138	Gavialis_bengawanicus,
+		139	Gavialis_gangeticus,
+		140	Gavialosuchus_americana,
+		141	Gavialosuchus_eggenburgensis,
+		142	Geosaurus_arisanensis,
+		143	Geosaurus_giganteus,
+		144	Geosaurus_lapparenti,
+		145	Globidentosuchus_brachyrostris,
+		146	Gobiosuchus_kielanae,
+		147	Goniopholis_baryglyphaeus,
+		148	Goniopholis_kiplingi,
+		149	Goniopholis_simus,
+		150	Gracilineustes_acutus,
+		151	Gracilineustes_leedsi,
+		152	Gracilisuchus_stipanicicorum,
+		153	Gryposuchus_colombianus,
+		154	Gryposuchus_pachakamue,
+		155	Guarinisuchus_munizi,
+		156	Hallopus_victor,
+		157	Hamadasuchus_rebouli,
+		158	Hemiprotosuchus_leali,
+		159	Hesperosuchus_agilis,
+		160	Hsisosuchus_chowi,
+		161	Hsisosuchus_chungkingensis,
+		162	Hsisosuchus_dashanpuensis,
+		163	Hylaeochampsa_vectiana,
+		164	Hyposaurus_rogersii,
+		165	Iberosuchus_macrodon,
+		166	Iharkutosuchus_makadii,
+		167	Ikanogavialis_gameroi,
+		168	Isisfordia_duncani,
+		169	Junggarsuchus_sloani,
+		170	Kambara_implexidens,
+		171	Kaprosuchus_saharicus,
+		172	Kayentasuchus_walkeri,
+		173	Kentisuchus_spenceri,
+		174	Knoetschkesuchus_guimarotae,
+		175	Knoetschkesuchus_langenbergensis,
+		176	Labidiosuchus_amicum,
+		177	Leidyosuchus_canadensis,
+		178	Libycosuchus_brevirostris,
+		179	Litargosuchus_leptorhynchus,
+		180	Lohuecosuchus_mechinorum,
+		181	Lohuecosuchus_megadontos,
+		182	Lomasuchus_palpebrosus,
+		183	Lorosuchus_nodosus,
+		184	Macelognathus_vagans,
+		185	Machimosaurus_buffetauti,
+		186	Machimosaurus_hugii,
+		187	Machimosaurus_mosae,
+		188	Mahajangasuchus_insignis,
+		189	Malawisuchus_mwakasyungutiensis,
+		190	Maledictosuchus_riclaensis,
+		191	Maomingosuchus_petrolica,
+		192	Mariliasuchus_amarali,
+		193	Maroccosuchus_zennaroi,
+		194	Mecistops_cataphractus,
+		195	Megadontosuchus_arduini,
+		196	Melanosuchus_fisheri,
+		197	Melanosuchus_niger,
+		198	Meridiosaurus_valisparadisi,
+		199	metriorhynchus_brachyrhynchus,
+		200	metriorhynchus_casamiquelai,
+		201	Metriorhynchus_geoffroyii,
+		202	Metriorhynchus_hastifer,
+		203	Metriorhynchus_superciliosus,
+		204	metriorhynchus_westermanni,
+		205	Montealtosuchus_arrudacamposi,
+		206	Morrinhosuchus_luziae,
+		207	Mourasuchus_amazonensis,
+		208	Nannosuchus_gracilidens,
+		209	Navajosuchus_mooki,
+		210	Neptunidraco_ammoniticus,
+		211	Neuquensuchus_universitas,
+		212	Nominosuchus_matutinus,
+		213	Notosuchus_terrestris,
+		214	Oceanosuchus_boecensis,
+		215	Orthogenysuchus_olseni,
+		216	Orthosuchus_stormbergi,
+		217	Osteolaemus_osborni,
+		218	Osteolaemus_tetraspis,
+		219	Pabwehshi_pakistanensis,
+		220	Pachycheilosuchus_trinquei,
+		221	Pakasuchus_kapilimai,
+		222	Paleosuchus_palpebrosus,
+		223	Paleosuchus_trigonatus,
+		224	Paralligator_gradilifrons,
+		225	Paralligator_major,
+		226	Paratomistoma_courtii,
+		227	Pehuenchesuchus_enderi,
+		228	Peipehsuchus_teleorhinus,
+		229	Pelagosaurus_typus,
+		230	Penghusuchus_pani,
+		231	Pholidosaurus_schaumburgensis,
+		232	Pholidosaurus_sp,
+		233	Phosphatosaurus_gavialoides,
+		234	Pietraroiasuchus_ormezzanoi,
+		235	Piscogavialis_jugaliperforatus,
+		236	Pissarrachampsa_sera,
+		237	Planocrania_datangensis,
+		238	Planocrania_hengdongensis,
+		239	Platysuchus_multicrobiculatus,
+		240	Plesiosuchus_manselii,
+		241	Postosuchus_alisonae,
+		242	Postosuchus_kirkpatricki,
+		243	Prestosuchus_chiniquensis,
+		244	Procaimanoidea_kayi,
+		245	Procaimanoidea_utahensis,
+		246	Prodiplocynodon_langi,
+		247	Protosuchus_haughtoni,
+		248	Protosuchus_richardsoni,
+		249	Pseudhesperosuchus_jachaleri,
+		250	Purranisaurus_potens,
+		251	Purussaurus_brasiliensis,
+		252	Purussaurus_mirandae,
+		253	Purussaurus_neivensis,
+		254	Rauisuchus_tiradentes,
+		255	Redondavenator_quayensis,
+		256	Rhabdognathus_aslerensis,
+		257	Rhabdognathus_keiniensis,
+		258	Rhacheosaurus_gracilis,
+		259	Rimasuchus_lloydi,
+		260	Rugosuchus_nonganensis,
+		261	Saltoposuchus_connectens,
+		262	Sarcosuchus_hartii,
+		263	Sarcosuchus_imperator,
+		264	Sebecus_huilensis,
+		265	Sebecus_icaeorhinus,
+		266	Sebecus_querejazus,
+		267	Shamosuchus_djadochtaensis,
+		268	Shantungosuchus_brachycephalus,
+		269	Shantungosuchus_chuhsienensis,
+		270	Shantungosuchus_hangjinensis,
+		271	Shartegosuchus_asperopalatum,
+		272	Shuvosaurus_inexpectatus,
+		273	Siamosuchus_phuphokensis,
+		274	Sichuanosuchus_huidongensis,
+		275	Sichuanosuchus_shuhanensis,
+		276	Simosuchus_clarki,
+		277	Siquisiquesuchus_venezuelensis,
+		278	Sokotosuchus_ianwilsoni,
+		279	Sphagesaurus_huenei,
+		280	Sphenosuchus_acutus,
+		281	Stangerochampsa_mccabei,
+		282	Steneosaurus_bollensis,
+		283	Steneosaurus_edwardsi,
+		284	Steneosaurus_gracilirostris,
+		285	Steneosaurus_heberti,
+		286	Steneosaurus_leedsi,
+		287	Steneosaurus_megistorhynchus,
+		288	Steneosaurus_obtusidens,
+		289	Stolokrosuchus_lapparenti,
+		290	Stratiotosuchus_maxhechti,
+		291	Suchodus_durobrivensis,
+		292	Sunosuchus_junggarensis,
+		293	Sunosuchus_miaoi,
+		294	Susisuchus_anatoceps,
+		295	Susisuchus_jaguaribensis,
+		296	Teleidosaurus_calvadosii,
+		297	Teleosaurus_cadomensis,
+		298	Terminonaris_browni,
+		299	Terminonaris_robusta,
+		300	Terrestrisuchus_gracilis,
+		301	Thecachampsa_antiqua,
+		302	Thecachampsa_carolinensis,
+		303	Theriosuchus_pusillus,
+		304	thoracosaurus_macrorhynchus,
+		305	Thoracosaurus_neocesariensis,
+		306	Tomistoma_cairense,
+		307	Tomistoma_lusitanica,
+		308	Tomistoma_schlegelii,
+		309	Torvoneustes_carpenteri,
+		310	Torvoneustes_coryphaeus,
+		311	Toyotamaphimeia_machikanensis,
+		312	Trialestes_romeri,
+		313	Trilophosuchus_rackhami,
+		314	Tsoabichi_greenriverensis,
+		315	Turfanosuchus_dabanensis,
+		316	Tyrannoneustes_lythrodectikos,
+		317	Uberabasuchus_terrificus,
+		318	Uruguaysuchus_aznarezi,
+		319	Vectisuchus_leptognathus,
+		320	Voay_robustus,
+		321	Wannaganosuchus_brachymans,
+		322	Wannchampsus_kirpachi,
+		323	Yacarerani_boliviensis,
+		324	Yonghesuchus_sangbiensis,
+		325	Zaraasuchus_shepardi,
+		326	Zoneait_nargorum,
+		327	Zosuchus_davidsoni
+	;
+	TREE * UNTITLED = [&R] (((((((((((((((((((((((((((((((((37:30.62052472,246:9.858417766):23.68787805,((((((40:27.15481375,313:37.05377852):0.9389184587,170:1.786397643):9.122137087,(100:14.31656845,(((105:2.765668017,((((((99:0.4243125566,101:0.4243125566):0.2310194291,107:0.6553319053):0.3202584182,(104:0.04171121791,108:0.04171121791):0.9338791592):1.268397637,106:2.243987961):1.142322961,110:3.386310653):1.355606408,((95:3.071488429,((98:0.7401027638,102:0.7401027638):1.700146403,109:2.440248899):0.631238726):1.32217884,103:4.393666734):0.3482505961):7.05446726):5.656959414,194:17.45334481):20.12926002,(((133:1.966197781,134:19.24173335):6.946587552,61:8.812270014):2.18271561,(((217:1.235833804,218:1.235833804):3.094776832,320:1.976699538):23.16448393,259:5.441907494):6.078171316):4.009335728):10.44998072):14.3830409):7.221942767,((((((((191:6.110603566,226:2.4783178):11.3598203,230:44.39745076):1.225116315,(301:22.94149144,302:6.308648788):16.62170227):2.186654807,(((307:3.369561227,308:24.49151822):20.89876084,306:2.184448439):1.596804853,(141:9.964260743,311:25.8117536):20.39519535):8.540500516):0.4540565906,140:29.56967909):1.380054943,(195:4.591304609,119:12.34134206):2.61278327):5.887836191,173:10.98214618):3.31542708,193:14.81898158):3.072611311):10.35347186,(59:30.57617224,94:19.57455116):6.457383697):6.117850038,((93:67.59642511,96:12.20758516):2.374757569,97:11.86050488):16.13771084):18.01891265):1.559293908,((((((((((65:22.14232403,(196:2.903066914,197:13.46953252):8.672791508):6.522366112,66:13.68780033):13.35471989,(((62:0.02283858296,63:0.02283858296):0.3515766302,64:0.3744153445):0.3337584561,67:0.7081735326):41.3112416):14.79270776,(((251:9.374394173,252:5.601796182):3.792474871,253:5.671747147):34.23711453,(207:41.53177125,215:1.110230791):1.826162658):1.863302435):6.677958907,((222:0.0240188494,223:0.0240188494):55.1069538,314:4.30262489):8.359092165):1.665420152,126:19.68992657):0.5361041262,145:56.48193434):18.80470731,((((209:9.306029713,281:4.62222539):3.159791407,(((((((15:0.9495558186,(11:13.78321847,10:1.442640181):9.730653139):7.144903444,14:30.65876701):0.9571332592,12:11.16172148):4.523626205,9:15.16294512):7.733341623,13:5.381041418):20.81430085,321:4.831882654):2.019817922,((27:9.842879658,245:3.120750503):11.25160292,244:7.532391381):6.5677316):9.300972726):3.5958768,(8:6.556548342,(76:2.920494357,19:6.611191672):22.08910105):0.156954027):3.970238547,(57:2.673644522,58:5.878636066):1.215432198):0.9222194143):9.261963981,(((117:2.459473757,118:8.231429375):16.81901856,115:14.16547522):25.50469775,116:36.58265065):12.416752):1.663197972,177:15.52999876):10.26563251):8.314329657,(((55:13.09497783,56:7.537609163):17.76885041,237:16.21253656):7.024607722,238:26.78859624):30.70944408):12.15048703,((((50:6.92269081,53:0.9742969998):12.13019477,54:28.58408922):2.692455603,51:23.83977525):7.937966019,52:23.37608144):33.42448595):12.25663552,((305:9.84661009,(304:20.46366165,(((((((235:21.88899498,277:8.764993752):0.3731305965,167:22.85995791):1.635157288,(153:3.762293744,154:2.946765498):14.82337931):4.009949427,(138:5.659033663,139:7.984939451):28.65325766):4.938591242,127:3.963814807):23.1372507,35:2.805185944):0.9781032735,(130:4.749462075,131:6.320453784):2.895501533):16.56201):1.353508844):3.871159658,132:4.263862697):50.92972718):22.5755848,(((34:34.41964308,(18:20.50781582,(180:11.41290928,181:3.537519118):10.80707582):5.704500986):13.14577549,(6:24.38963347,7:26.59299777):18.60920264):31.93019589,(((163:7.280359408,166:48.22553894):4.049917579,2:50.99015911):3.471839926,3:61.13329033):8.655297066):12.48282246):2.958849205,(234:16.05028687,220:17.78652976):37.85445472):2.913376521,((294:31.05590262,295:11.07463518):8.030594369,168:51.77199555):3.477138105):11.35617562,(((((224:7.236071244,225:1.687009225):27.84084346,260:38.53984126):29.45157553,44:1.159430691):5.062336006,267:82.33224913):1.054500491,322:46.17066567):13.28857976):0.2807177116,49:34.95029172):17.88723536,((((((((148:2.43758507,149:5.19896309):12.77108947,147:2.574865516):2.306631353,24:32.97241222):1.605329373,208:17.29562417):1.66985808,(21:3.381100912,22:2.764904243):6.639360188):0.6972633581,273:38.55286561):16.69065363,((135:14.27226957,292:4.843596533):3.412605913,293:12.85707969):10.06100007):14.18784442,71:0.5185914617):1.355271956):0.8706775424,(((174:10.0308779,175:8.673667838):8.112160057,303:28.94619843):7.306083847,((16:3.780568039,39:7.18448301):14.88215505,17:16.08456826):8.307643286):16.48594348):1.197983047,((((((((((256:3.779678309,257:3.318431257):0.2003787246,(38:6.370380475,155:6.062341098):1.734142916):0.7781665729,(1:5.082577354,((121:1.354716679,122:4.627116223):10.50263288,82:2.253522538):0.2681328623):6.642589477):4.671147116,28:19.25439592):3.014256308,((233:0.7562958415,278:0.8254165716):4.208798621,164:6.891284965):4.688488802):1.956023777,77:22.27946298):2.620922687,25:21.5918012):3.352584008,79:20.98797766):73.36790236,((((298:14.05415451,299:16.75748786):1.985953529,214:17.98530124):41.39131726,((262:21.35837851,263:12.90900291):13.97191617,78:0.5477708389):7.882572315):0.932686332,((125:52.92226578,198:0.7292252841):3.683683995,319:30.00146591):0.4998133444):2.319492768):5.685524556,(231:9.359239292,232:12.67099758):12.67105118):31.76792745):0.9492363735,((((((189:9.162869013,(211:36.88462271,221:5.200648752):6.226005776):2.599451262,((((((111:2.780836298,(((48:20.04491258,165:16.67027561):3.044311479,183:8.282071601):12.54038689,219:11.53880065):5.250194896):7.03781967,227:19.5330367):9.158490043,((((((46:0.4688968506,47:1.036724927):4.235978251,(26:4.627041186,45:1.308280836):0.1031998373):3.180563376,72:4.207906212):1.812068217,290:4.61784642):8.767542345,236:14.21333839):6.370217,((((265:1.678973788,264:31.82849337):24.29065642,266:4.710447971):0.6921640286,(41:18.11941993,60:5.465230736):8.019663023):17.29671489,42:73.23366576):15.25684107):0.02407955736):5.325741511,81:22.62506395):14.43204838,80:3.770027959):1.970120899,((83:4.167268083,(((68:14.24471743,69:12.91710695):4.61347281,70:19.36049081):2.033093919,((213:10.05816741,((176:21.66001558,36:7.086754795):2.194384735,((192:0.4901458433,75:8.930159179):9.404996046,(4:1.212696548,279:6.014802205):11.98167157):1.514040977):1.090296025):1.382126513,323:3.224763103):4.540196078):4.274909278):1.840607096,206:26.25818611):19.18266282):4.932127303):2.764620173,276:62.30623258):10.55709933,178:47.3152009):0.448287284,73:39.39092653):7.715201324,((((((182:0.9035739525,(205:9.041324454,317:15.05833222):7.767968718):10.42128426,137:18.53257067):5.600480347,157:0.8207728266):3.786206566,(171:6.555524618,188:35.55332468):9.994629464):2.310234489,(43:39.11618233,289:1.166254809):0.8519313161):28.7631339,((((31:0.842790417,318:2.766029804):25.85201386,30:12.22712705):0.0664718016,29:24.96347955):10.34906877,((23:10.47959102,32:59.13967977):2.367765688,33:16.07261587):5.96820128):9.029782089):6.660960249):47.9168403):0.5055617476,((160:19.13958597,162:8.511037604):5.409346609,161:20.5936238):17.14990147):1.156676013,(((5:1.544624359,271:2.740908344):22.39742718,136:18.17459656):0.671115761,212:24.44197744):28.25697962):2.088116188,((((268:2.599444294,270:9.450487489):1.848964122,269:3.643161102):17.55241566,(274:1.314135364,275:20.27504435):4.010480049):13.08466018,327:93.43395674):23.5673197):11.60847827,(146:27.7345583,325:26.68220388):103.974304):3.179622728,((((247:7.489944314,248:8.360424079):2.658020657,158:0.5838866227):2.148282541,123:93.98856376):3.646355553,216:18.78995442):1.407300767):0.6155958334,((((((((((((85:0.319854288,258:0.7561977569):19.8673901,((((87:5.266475339,88:16.73841764):1.450319726,84:7.399028426):1.973821048,90:16.30745891):7.525860445,(92:11.49952927,86:12.71941548):2.747393722):0.9506283179):0.2759474749,(89:12.09339695,91:6.531576957):4.464871896):2.114913663,190:3.349796903):5.036289978,(150:8.437101615,151:8.640688887):0.6248195417):6.100414555,((201:3.951294275,202:13.39995675):9.107850496,203:13.00751098):1.754640194):2.674647076,(((204:9.94478853,200:3.263782567):3.247735277,((((((309:0.0974378737,310:1.170137729):0.3470044387,((142:0.9772668741,143:1.361757334):2.108109912,144:14.54179598):4.120742195):4.400122633,(250:10.98641528,(112:9.648122684,113:6.152911278):1.724865877):1.981588762):6.651007069,(240:11.18820165,291:0.4249892335):3.802634403):2.505060069,316:7.759634203):2.450556094,210:4.724514809):3.753294612):2.612028875,199:13.2809045):3.133351432):1.606340234,326:11.28131238):4.057038096,(128:3.681084484,129:2.269358384):18.83545926):1.18014799,296:21.36526587):1.679236151,229:9.140205029):8.616904701,((((((((186:1.949615581,187:8.771840917):2.225882233,185:13.51246466):1.187728646,288:4.02945112):2.310944933,283:7.395512386):11.65292454,((286:8.670355471,287:6.566764153):5.231904522,285:10.53839893):4.749081528):6.652368463,282:7.040864045):3.132743092,((239:5.223966634,297:15.65384536):0.7385315335,228:4.696469569):8.38174007):3.458823611,284:14.36018932):4.252239934):18.19582679):0.04154444722,((156:25.03255151,184:25.15947732):17.48139273,20:36.56389129):19.75956131):2.812547652,169:57.74288478):0.8245571251,114:22.06537315):0.5973145711,280:21.94760994):9.08321678,((120:9.160186425,172:30.22025362):3.925904824,159:15.6135985):0.6473029001):3.260052135,((179:11.48193568,300:4.908962176):18.64489634,261:16.13053404):4.291288878):1.527248101,(249:5.994410783,312:2.815951136):4.778027218):3.426801387,(74:0.6760620677,255:13.40064012):7.215553866):3.0279426,((241:3.565371404,242:7.135555924):3.364453321,254:5.106774245):3.16904513):2.970110179,243:7.233477093):0.7609157354,(124:21.54824733,272:7.866407109):17.37796971):4.342129418,((152:2.866751477,324:5.709547254):6.451369983,315:0.4957873182):3.531047139);
+END;

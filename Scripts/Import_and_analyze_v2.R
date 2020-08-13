@@ -98,17 +98,15 @@ open3d()
 spheres3d(proc_aligned_rightside[,,1],col=modulecolors,radius=.001)
 
 
-tree1 <- read.nexus(here("Trees","Tree_1_FBD_MeanBL.nex"))
-tree2 <- read.nexus(here("Trees","Tree_2_FBD_MeanBL.nex"))
-tree3 <- read.nexus(here("Trees","Tree_3_FBD_MeanBL.nex"))
-tree4 <- read.nexus(here("Trees","Tree_4_FBD_MeanBL.nex"))
+tree1 <- read.nexus(here("Trees_2","Tree_1_FBD_MCC.nex"))
+tree2 <- read.nexus(here("Trees_2","Tree_2_FBD_MCC.nex"))
+tree3 <- read.nexus(here("Trees_2","Tree_3_FBD_MCC.nex"))
 
-treelist<-list(tree1,tree2,tree3,tree4)
+treelist<-list(tree1,tree2,tree3)
 par(mfrow=c(2,2))
 plot(treelist[[1]])
 plot(treelist[[2]])
 plot(treelist[[3]])
-plot(treelist[[4]])
 par(mfrow=c(1,1))
 #change the names of the data to match the tree:
 
@@ -127,7 +125,7 @@ for (i in 1:length(treelist2)){
 
 # Test Phylogenetic Signal --------------------------------------------
 
-physiglist <- lapply(1:4, function(k) geomorph::physignal(proc_aligned_rightside, treelist2[[k]]))
+physiglist <- lapply(1:3, function(k) geomorph::physignal(proc_aligned_rightside[,,treelist2[[k]]$tip.label], treelist2[[k]]))
 physiglist
 
 # Test allometry --------------------------------------------
@@ -136,21 +134,53 @@ allometry1 <- geomorph::procD.lm(proc_aligned_rightside~log(Y.gpa$Csize))
 summary(allometry1)
 plotAllometry(allometry1, size=Y.gpa$Csize,method="RegScore")
 
-allomtery.phylo <- lapply (1:4, function(k) geomorph::procD.pgls(proc_aligned_rightside~Y.gpa$Csize, phy=treelist2[[k]]))
+allomtery.phylo <- lapply (1:3, function(k) geomorph::procD.pgls(proc_aligned_rightside~Y.gpa$Csize, phy=treelist2[[k]]))
 summary(allomtery.phylo[[1]])
 summary(allomtery.phylo[[2]])
 summary(allomtery.phylo[[3]])
-summary(allomtery.phylo[[4]])
 
 
 
 # Per-landmark rate and variance --------------------------------------------
 
-rateslist <- lapply(1:4, function(k) hot.dots::per_lm_rates(proc_aligned_rightside, treelist2[[k]]))
+rateslist <- lapply(1:3, function(k) hot.dots::per_lm_rates(proc_aligned_rightside, treelist2[[k]]))
 perlmvar <- hot.dots::per_lm_variance(proc_aligned_rightside)
 
 
+load("~/Google Drive/_UCL/Projects/Archosaur Modularity/Skull Figures/croc.3d.params.R")
+m1<-vcgImport("~/Dropbox/NHM/crocs/meshes/Alligator_mississippiensis_AMNH_R_40582_craniumforfigures.ply",readcolor=TRUE)
 
+screenshotfolder<-"/Users/felice/Dropbox/Crocs/Croc_FBD_Project/Landarking_figsv2"
+
+open3d(zoom=croc.views$lateral$zoom,userMatrix = croc.views$lateral$userMatrix,windowRect = croc.views$lateral$windowRect)
+spheres3d(coords.raw[-which(module_defs$l_or_r=="l"),,1],radius = 2.5,col=perlmvar$Variance_Colors)
+shade3d(m1)
+rgl.snapshot(paste0(screenshotfolder,"disps_lateral.png"))
+
+open3d(zoom=croc.views$ventral$zoom,userMatrix = croc.views$ventral$userMatrix,windowRect = croc.views$ventral$windowRect)
+spheres3d(coords.raw[-which(module_defs$l_or_r=="l"),,1],radius = 2.5,col=perlmvar$Variance_Colors)
+shade3d(m1)
+rgl.snapshot(paste0(screenshotfolder,"disps_ventral.png"))
+
+open3d(zoom=croc.views$dorsal$zoom,userMatrix = croc.views$dorsal$userMatrix,windowRect = croc.views$dorsal$windowRect)
+spheres3d(coords.raw[-which(module_defs$l_or_r=="l"),,1],radius = 2.5,col=perlmvar$Variance_Colors)
+shade3d(m1)
+rgl.snapshot(paste0(screenshotfolder,"disps_dorsal.png"))
+
+open3d(zoom=croc.views$lateral$zoom,userMatrix = croc.views$lateral$userMatrix,windowRect = croc.views$lateral$windowRect)
+spheres3d(coords.raw[-which(module_defs$l_or_r=="l"),,1],radius = 2.5,col=rateslist[[3]]$Rate_Colors)
+shade3d(m1)
+rgl.snapshot(paste0(screenshotfolder,"rates_lateral_t3.png"))
+
+open3d(zoom=croc.views$ventral$zoom,userMatrix = croc.views$ventral$userMatrix,windowRect = croc.views$ventral$windowRect)
+spheres3d(coords.raw[-which(module_defs$l_or_r=="l"),,1],radius = 2.5,col=rateslist[[3]]$Rate_Colors)
+shade3d(m1)
+rgl.snapshot(paste0(screenshotfolder,"rates_ventral_t3.png"))
+
+open3d(zoom=croc.views$dorsal$zoom,userMatrix = croc.views$dorsal$userMatrix,windowRect = croc.views$dorsal$windowRect)
+spheres3d(coords.raw[-which(module_defs$l_or_r=="l"),,1],radius = 2.5,col=rateslist[[3]]$Rate_Colors)
+shade3d(m1)
+rgl.snapshot(paste0(screenshotfolder,"rates_dorsal_t3.png"))
 
 
 
@@ -199,11 +229,6 @@ evoratesgeomorph_3<-compare.multi.evol.rates(A = reordered.data,
                                              Subset = TRUE,
                                              iter = 999) 
 
-evoratesgeomorph_4<-compare.multi.evol.rates(A = reordered.data,
-                                             gp =  as.factor(module.defs.for.rate.test),
-                                             phy = treelist2[[4]],
-                                             Subset = TRUE,
-                                             iter = 999) 
 
 
 
@@ -246,7 +271,7 @@ lacrimal.disp<-morphol.disparity(lacrimal.points~1)
 
 
 # Compare Variation Between Groups ----------------------------------------
-eco <- read_csv(here("Data", "Ecology_data.csv"))
+eco <- read_csv(here("Data", "Ecology_data_v2.csv"))
 
 eco <- eco %>% filter(., Tip_label %in% row.names(pca_results$x)) %>% arrange(., Tip_label)
 names(eco$extinct)<-eco$Tip_label
@@ -265,17 +290,16 @@ disparity_comp2<-morphol.disparity(f1 = coords ~ clade, groups = ~clade, data = 
 # MANOVA for ecology  -----------------------------------------------------
 manova.nonphylo<-procD.lm(f1 = coords ~ diet, data = gdf)
 
-manova.phylo <- lapply(1:4, function(k) geomorph::procD.pgls(f1 = coords ~ diet, phy = treelist2[[k]], data = gdf))
+manova.phylo <- lapply(1:3, function(k) geomorph::procD.pgls(f1 = coords ~ diet, phy = treelist2[[k]], data = gdf))
 summary(manova.phylo[[1]])
 summary(manova.phylo[[2]])
 summary(manova.phylo[[3]])
-summary(manova.phylo[[4]])
 
 # BayesTraits Rates Analysis ----------------------------------------------
 
 
 #export trees and phyloPC scores
-btfolder <- here("BayesTraits") 
+btfolder <- here("BayesTraits_v2") 
 
 runs <- c("a", "b") # do two runs of each so that you can check convergence at the end
 
@@ -285,7 +309,7 @@ for (i in 1:length(runs)){
     #phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], align.to.phy = TRUE)
     #right way
     phypc <- gm.prcomp(A = proc_aligned_rightside, phy = treelist2[[j]], GLS = TRUE)
-    #keeping 2 pc axes for 95% of variance, multiply by 1000 to make sure tiny values dont underflow in BayesTraits
+    #keeping the pc axes for 95% of variance, multiply by 1000 to make sure tiny values dont underflow in BayesTraits
     
     scores <- phypc$x[,c(1:which(cumsum(phypc$d/sum(phypc$d))>0.95)[1])]*1000 
     
@@ -340,18 +364,18 @@ color3<-colorRampPalette(c("#0c2c84","#225ea8","#31a354","#ffff00","#fe9929","#f
 #my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
 #gelman.diag(my_list_of_chains)
 #
-#tree_1_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"),
-#                                          rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_1_run_a.txt.Output.trees"),
-#                                          tree = treelist2[[1]]) #this is your time scaled tree that was used to input into bayestraits
-#
+tree_1_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits_v2","Phylo_PC_SCORES_tree_1_run_a.txt.VarRates.txt"),
+                                          rjtrees = here("BayesTraits_v2","Phylo_PC_SCORES_tree_1_run_a.txt.Output.trees"),
+                                          tree = treelist2[[1]]) #this is your time scaled tree that was used to input into bayestraits
+
 
 palatex<-c( "#D55E00",   "#009E73",  "#56B4E9")
 tree_1_w_data <- add_rjpp_to_tree(tree_1_BTraits)
 tree_1_w_data <- full_join(tree_1_w_data, mutate(eco, label = eco$Tip_label), by = "label")
-threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+threshold <- .6 # the minimum posterior probability you want to plot a symbol for 
 p<-ggtree(tree_1_w_data, aes(color = log(meanRate)), size=1)+
   scale_colour_gradientn(colours = color3(100))+
-  geom_tippoint(aes(fill=Diet2, x=x+4),color="black", shape=23)+
+  #geom_tippoint(aes(fill=Diet2, x=x+4),color="black", shape=23)+
   scale_fill_manual(breaks = c("Carnivore","Omnivore/Herbivore","Piscivore"), values = palatex)+
   #theme(legend.position="top")+
   theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
@@ -361,7 +385,7 @@ p<-ggtree(tree_1_w_data, aes(color = log(meanRate)), size=1)+
   geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
   scale_size(range = c(1,2))+ 
   geom_tiplab(label= sub("_", " ",tree_1_w_data@phylo$tip.label), size=3, offset=5.5, color = "black", family = "Arial", fontface="italic")+
-  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+  coord_cartesian(xlim = c(-200, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
                   ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
                   expand = FALSE) +
  scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
@@ -380,9 +404,9 @@ p2<-p+geom_strip(taxa1 ="Crocodylus_mindorensis", taxa2 = "Prodiplocynodon_langi
 ptree1b <-  gggeo_scale(p2, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
 ptree1b 
 
-ggsave(filename = here("Fig_Output", "rate_trees1a.pdf"),
+ggsave(filename = here("Fig_Output", "rate_trees1a_v2.pdf"),
        plot = ptree1b, device = cairo_pdf,
-       width = 11, height = 11, units = "cm")
+       width = 9, height = 7, units = "in")
 
 #Tree 2
 #Check convergence of likelihood:
@@ -391,12 +415,12 @@ ggsave(filename = here("Fig_Output", "rate_trees1a.pdf"),
 #my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
 #gelman.diag(my_list_of_chains)
 #
-#tree_2_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"),
-#                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_2_run_a.txt.Output.trees"),
-#                               tree = treelist2[[2]])
+tree_2_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits_v2","Phylo_PC_SCORES_tree_2_run_a.txt.VarRates.txt"),
+                               rjtrees = here("BayesTraits_v2","Phylo_PC_SCORES_tree_2_run_a.txt.Output.trees"),
+                               tree = treelist2[[2]])
 
 tree_2_w_data <- add_rjpp_to_tree(tree_2_BTraits)
-threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+threshold <- .6 # the minimum posterior probability you want to plot a symbol for 
 p<-ggtree(tree_2_w_data, aes(color = log(meanRate)), size=1)+
   scale_colour_gradientn(colours = color3(100))+
   #theme(legend.position="top")+
@@ -405,8 +429,8 @@ p<-ggtree(tree_2_w_data, aes(color = log(meanRate)), size=1)+
   labs(title="Tree 2",
        color="log(Rate)")+
   geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
-  geom_tiplab(label= sub("_", " ",tree_2_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
-  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+  geom_tiplab(label= sub("_", " ",tree_2_w_data@phylo$tip.label), size=3, color = "black", family = "Arial", fontface="italic")+
+  coord_cartesian(xlim = c(-220, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
                   ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
                   expand = FALSE) +
   scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
@@ -422,12 +446,12 @@ ptree2
 #my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
 #gelman.diag(my_list_of_chains)
 #
-#tree_3_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"),
-#                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_3_run_a.txt.Output.trees"),
-#                               tree = treelist2[[3]])
+tree_3_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits_v2","Phylo_PC_SCORES_tree_3_run_a.txt.VarRates.txt"),
+                               rjtrees = here("BayesTraits_v2","Phylo_PC_SCORES_tree_3_run_a.txt.Output.trees"),
+                               tree = treelist2[[3]])
 
 tree_3_w_data <- add_rjpp_to_tree(tree_3_BTraits)
-threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
+threshold <- .6 # the minimum posterior probability you want to plot a symbol for 
 p<-ggtree(tree_3_w_data, aes(color = log(meanRate)), size=1)+
   scale_colour_gradientn(colours = color3(100))+
   #theme(legend.position="top")+
@@ -436,58 +460,27 @@ p<-ggtree(tree_3_w_data, aes(color = log(meanRate)), size=1)+
   labs(title="Tree 3",
        color="log(Rate)")+
   geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
-  geom_tiplab(label= sub("_", " ",tree_3_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
-  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
+  geom_tiplab(label= sub("_", " ",tree_3_w_data@phylo$tip.label), size=3, color = "black", family = "Arial", fontface="italic")+
+  coord_cartesian(xlim = c(-220, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
                   ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
                   expand = FALSE) +
   scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
   theme(panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
 p <- revts(p) 
 ptree3 <- gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
+ptree3
 
 
-#Tree 4
-#Check convergence of likelihood:
-#test1 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"), plot = FALSE)
-#test2 = tracePlots(file=here("BayesTraits","Phylo_PC_SCORES_tree_4_run_b.txt.VarRates.txt"), plot = FALSE)
-#my_list_of_chains = mcmc.list(list(test1[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")], test2[,c("Lh", "Lh...Prior", "No.Pram", "Alpha", "Sigma.2")]))
-#gelman.diag(my_list_of_chains)
-#
-#tree_4_BTraits<-BTRTools::rjpp(rjlog = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.VarRates.txt"),
-#                               rjtrees = here("BayesTraits","Phylo_PC_SCORES_tree_4_run_a.txt.Output.trees"),
-#                               tree = treelist2[[4]])
-#
+p.combined <- grid.arrange(ptree1, ptree2, ptree3,  nrow =2)
 
 
-tree_4_w_data <- add_rjpp_to_tree(tree_4_BTraits)
-threshold <- .15 # the minimum posterior probability you want to plot a symbol for 
-p<-ggtree(tree_4_w_data, aes(color = log(meanRate)), size=1)+
-  scale_colour_gradientn(colours = color3(100))+
-  #theme(legend.position="top")+
-  theme(legend.position=c(.32,.83),legend.direction = "horizontal",legend.box.background = element_rect(colour = "black",size =1))+
-  scale_size(range = c(1,2))+ 
-  labs(title="Tree 4",
-       color="log(Rate)")+
-  geom_nodepoint(aes(subset=ppRate>threshold, size = ppRate),color='black',fill="grey", shape=24)+
-  geom_tiplab(label= sub("_", " ",tree_4_w_data@phylo$tip.label), size=2, color = "black", family = "Arial", fontface="italic")+
-  coord_cartesian(xlim = c(-230, 90), #you have to fiddle with these values to get your tip labels to show. the first value should be just before your root time, second value pads out space for tip labels
-                  ylim = c(-2, 45), #first value makes room for geo timescale, second value is vertical space and should be a few more than your number of tips
-                  expand = FALSE) +
-  scale_x_continuous(breaks=-periods$max_age[c(1:5)], labels=periods$max_age[c(1:5)]) + 
-  theme(panel.grid.major.x = element_line(colour="grey", size=0.5))#should also be modified based on your time scale limits
-p <- revts(p) 
-ptree4 <- gggeo_scale(p, neg = FALSE, center_end_labels = TRUE, height = unit(1, "line"), size=3)
-
-
-p.combined <- grid.arrange(ptree1, ptree2, ptree3, ptree4, nrow =2)
-
-ggsave(filename = here("Fig_Output", "rate_trees.pdf"),
+ggsave(filename = here("Fig_Output", "rate_trees_v2_bigger_a.pdf"),
        plot = p.combined, device = cairo_pdf,
-       width = 18, height = 22, units = "cm")
+       width = 16, height = 14, units = "in")
 
 
 
-ggsave(filename = here("Fig_Output", "rate_trees1.pdf"),
+ggsave(filename = here("Fig_Output", "rate_trees1_v2.pdf"),
        plot = ptree1, device = cairo_pdf,
        width = 11, height = 11, units = "cm")
 
@@ -509,9 +502,19 @@ longsnout_forms<-c("Tomistoma_schlegelii","Pelagosaurus_typus","Gavialis_gangeti
 traits_vector[which(names(traits_vector)%in%longsnout_forms)]<-"long"
 
 RRates <- RRphylo(treelist2[[1]], pca_results$x[,c(1:3)],clus=.5)#clus .5 will use half the available cores on your system
-conv.test <- search.conv(tree=treelist2[[1]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests"))
+conv.test <- search.conv(tree=treelist2[[1]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests","v2"))
 
 conv.test
+
+conv.test2 <- search.conv(tree=treelist2[[2]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests","v2"))
+
+conv.test2
+
+
+conv.test3 <- search.conv(tree=treelist2[[3]], y=pca_results$x,  state = traits_vector, foldername =  here("Convergence_Tests","v2"))
+
+conv.test3
+
 
 # EMMLIi Test of Modularity --------------------------------------------------------
 
@@ -521,19 +524,75 @@ coords.2d <- two.d.array(proc_aligned_rightside)
 contrasts_tree1 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[1]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
 contrasts_tree2 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[2]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
 contrasts_tree3 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[3]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
-contrasts_tree4 <- apply(coords.2d, 2, FUN=pic, phy=treelist2[[4]]) %>% arrayspecs(., p=dim(proc_aligned_rightside)[1], k = 3)
 
 corrmat_contrasts_t1<-dotcorr(contrasts_tree1)
 corrmat_contrasts_t2<-dotcorr(contrasts_tree2)
 corrmat_contrasts_t3<-dotcorr(contrasts_tree3)
-corrmat_contrasts_t4<-dotcorr(contrasts_tree4)
 
 EMMLI_PIC_tree1 <- EMMLi(corr = corrmat_contrasts_t1, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
 EMMLI_PIC_tree2 <- EMMLi(corr = corrmat_contrasts_t2, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
 EMMLI_PIC_tree3 <- EMMLi(corr = corrmat_contrasts_t3, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
-EMMLI_PIC_tree4 <- EMMLi(corr = corrmat_contrasts_t4, N_sample = 43, mod = as.data.frame(module_defs_right[,-c(1,2,4)])) 
+
+#redone with target module hypotheses
+EMMLI_PIC_tree1 <- EMMLi(corr = corrmat_contrasts_t1, N_sample = 43, mod = as.data.frame(module_defs_right[,c(3,14)])) 
+EMMLI_PIC_tree2 <- EMMLi(corr = corrmat_contrasts_t2, N_sample = 43, mod = as.data.frame(module_defs_right[,c(3,14)])) 
+EMMLI_PIC_tree3 <- EMMLi(corr = corrmat_contrasts_t3, N_sample = 43, mod = as.data.frame(module_defs_right[,c(3,14)])) 
 
 # end ---------------------------------------------------------------------
+nmodules=20
+#rho list directs the code to the results. this will be the "rhos_best" thing for subsampled emmli
+rholist<-t( EMMLI_PIC_tree1 $rho$`occipitals_merged_and_pterygoids_merged.sep.Mod + sep.between`)
+words<-strsplit(rownames(rholist), split = " ")
+corrmat_new<-matrix(data = NA, nrow = nmodules, ncol = nmodules)
+for (i in 1:(length(words)-1)){
+  if (length(words[[i]]) == 2){
+    corrmat_new[as.numeric(words[[i]][2]),as.numeric(words[[i]][2])] <- rholist[i,2]
+  }
+  if (length(words[[i]]) == 3){
+    corrmat_new[as.numeric(words[[i]][1]),as.numeric(words[[i]][3])] <- rholist[i,2]
+    corrmat_new[as.numeric(words[[i]][3]),as.numeric(words[[i]][1])] <- rholist[i,2]
+  }
+}
+corrmat_new <- corrmat_new[-19,-19]
+modnames<-c("premax_vent","max_vent","max_dorsal","premax_dorsal","nasal","frontal","parietal","supra_occ","occ_condyle","basiocc","pterygoid","palatine","jjoint","jugal","squamosal","lac/prefont","ectoptery","ptery_flange","postorbital") 
+rownames(corrmat_new)<-colnames(corrmat_new)<-modnames
+#write.csv(corrmat_new,file = "/Users/felice/Google Drive/_UCL/Projects/Crocs 2019/Manuscript/Results Tables/Emmli_crocs_tree1_Aug5.csv")
+within<-diag(corrmat_new)
+within
 
 
+rate.disp.table<-read_csv("/Users/felice/Dropbox/Crocs/Croc_FBD_Project/Data/rates results/croc_geomorph_rates_tableAug4.csv")
 
+ratedisp.2 <-  rate.disp.table %>% spread(., key=key, value) 
+ratedisp.2$tree <- as.factor(ratedisp.2$tree)
+
+
+library(ggthemes)
+library(ggrepel)
+library(gridExtra)
+
+g1<-ggplot(ratedisp.2,aes(x = rho,y = rate, color= Module, shape = tree))+
+  geom_point(size = 1)+labs(x="Within Module Correlation",y="Evolutionary Rate")+
+  theme_bw()+
+  theme(aspect.ratio=1,text=element_text(family="Arial",size=6))+
+  scale_color_manual(values=unique(ratedisp.2$color))+
+  geom_text_repel(aes(rho,rate,label=Module), size=1,family="Arial", color="black")
+#geom_text(aes(label=module_name),hjust="inward", vjust=-.20);g1
+gA<-ggplot(ratedisp.2,aes(rho,disp/n_landmarks, color= Module, shape = tree))+
+  geom_point(size = 1)+labs(x="Within Module Correlation",y="Disparity")+
+  theme_bw()+
+  theme(aspect.ratio=1,text=element_text(family="Arial",size=6))+
+  scale_color_manual(values=unique(ratedisp.2$color))+
+  geom_text_repel(aes(rho,disp/n_landmarks,label=Module),size=1,family="Arial", color="black")
+#geom_text(aes(label=module_name),hjust="inward", vjust=-.20);gA
+g2<-ggplot(ratedisp.2,aes(rate,disp/n_landmarks, color= Module, shape = tree))+
+  geom_point(size = 1)+labs(x="Rates",y="Disparity")+
+  theme_bw()+ 
+  theme(aspect.ratio=1,text=element_text(family="Arial",size=6))+
+  scale_color_manual(values=unique(ratedisp.2$color))+
+  geom_text_repel(aes(rate,disp/n_landmarks,label=Module),size=1,family="Arial", color="black")
+#geom_text(aes(label=module_name),hjust="inward", vjust=-.20);g2
+
+
+xplot<-grid.arrange(g1+ theme(legend.position="none"),gA+ theme(legend.position="none"), g2+ theme(legend.position="none"), nrow=1)
+ 
